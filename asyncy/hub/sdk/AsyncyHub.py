@@ -9,7 +9,6 @@ from asyncy.hub.sdk.db.Service import Service
 
 
 class AsyncyHub:
-    # TODO: add automatic retry
     # TODO: add background updates
     @staticmethod
     def get_config_dir(app):
