@@ -8,7 +8,7 @@ with open('LICENSE') as f:
     license_contents = f.read()
 
 setup(
-    name='Asyncy Hub SDK for Python 3.6+',
+    name='hub-sdk-python',
     version='0.0.1',
     description='A Python SDK to access the Asyncy Hub, '
                 'which supports caching and more',
