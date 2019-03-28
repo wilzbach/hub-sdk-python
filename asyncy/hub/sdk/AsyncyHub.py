@@ -47,7 +47,7 @@ class AsyncyHub:
 
         return services
 
-    @lru_cache(maxsize=1)
+    @lru_cache(maxsize=28)
     def get(self, alias=None, owner=None, name=None) -> Service:
         """
         Get a service from the database.
