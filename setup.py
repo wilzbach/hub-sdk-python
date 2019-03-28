@@ -20,7 +20,8 @@ setup(
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'requests==2.21.0',
-        'peewee==3.9.3'
+        'peewee==3.9.3',
+        'cachetools==3.1.0'
     ],
     tests_require=[
         'pytest==4.3.1',

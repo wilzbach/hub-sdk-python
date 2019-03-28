@@ -1,15 +1,27 @@
 # -*- coding: utf-8 -*-
-from functools import lru_cache
 import os
 import sys
+from threading import Lock
 
+from asyncy.hub.sdk.AutoUpdateThread import AutoUpdateThread
 from asyncy.hub.sdk.GraphQL import GraphQL
 from asyncy.hub.sdk.db.Database import Database
 from asyncy.hub.sdk.db.Service import Service
 
+from cachetools import TTLCache, cached
+
+from peewee import DoesNotExist
+
 
 class AsyncyHub:
-    # TODO: add background updates
+    update_thread = None
+
+    retry_lock = Lock()
+    update_lock = Lock()
+
+    ttl_cache_for_services = TTLCache(maxsize=128, ttl=1 * 60)
+    ttl_cache_for_service_names = TTLCache(maxsize=1, ttl=1 * 60)
+
     @staticmethod
     def get_config_dir(app):
         if sys.platform == 'win32':
@@ -19,7 +31,7 @@ class AsyncyHub:
 
         return os.path.join(p, app)
 
-    def __init__(self, db_path: str = None):
+    def __init__(self, db_path: str = None, auto_update: bool = True):
         if db_path is None:
             db_path = AsyncyHub.get_config_dir('.asyncy')
 
@@ -27,7 +39,11 @@ class AsyncyHub:
 
         self.db_path = db_path
 
-    @lru_cache(maxsize=1)
+        if auto_update:
+            self.update_thread = AutoUpdateThread(
+                update_function=self.update_cache)
+
+    @cached(cache=ttl_cache_for_service_names)
     def get_all_service_names(self) -> [str]:
         """
         Get all service names and aliases from the database.
@@ -46,7 +62,7 @@ class AsyncyHub:
 
         return services
 
-    @lru_cache(maxsize=28)
+    @cached(cache=ttl_cache_for_services)
     def get(self, alias=None, owner=None, name=None) -> Service:
         """
         Get a service from the database.
@@ -56,13 +72,30 @@ class AsyncyHub:
         :param name: The name of the service
         :return: Returns a Service instance, with all fields populated
         """
-        with Database(self.db_path):
-            if alias:
-                service = Service.select().where(Service.alias == alias)
-            else:
-                service = Service.select().where(
-                    (Service.username == owner) & (Service.name == name))
-        return service.get()
+        service = self._get(alias, owner, name)
+
+        if service is None:
+            # Maybe it's new in the Hub?
+            with self.retry_lock:
+                service = self._get(alias, owner, name)
+                if service is None:
+                    self.update_cache()
+                    service = self._get(alias, owner, name)
+
+        return service
+
+    def _get(self, alias: str = None, owner: str = None, name: str = None):
+        try:
+            with Database(self.db_path):
+                if alias:
+                    service = Service.select().where(Service.alias == alias)
+                else:
+                    service = Service.select().where(
+                        (Service.username == owner) & (Service.name == name))
+
+                return service.get()
+        except DoesNotExist:
+            return None
 
     def update_cache(self):
         services = GraphQL.get_all()
@@ -83,6 +116,9 @@ class AsyncyHub:
                         state=service['state'],
                         configuration=service['configuration'],
                         readme=service['readme'])
-        self.get.cache_clear()
-        self.get_all_service_names.cache_clear()
+
+        with self.update_lock:
+            self.ttl_cache_for_service_names.clear()
+            self.ttl_cache_for_services.clear()
+
         return True
