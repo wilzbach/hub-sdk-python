@@ -28,6 +28,7 @@ class AsyncyHub:
 
         self.db_path = db_path
 
+    @lru_cache(maxsize=1)
     def get_all_service_names(self) -> [str]:
         """
         Get all service names and aliases from the database.
@@ -65,7 +66,6 @@ class AsyncyHub:
         return service.get()
 
     def update_cache(self):
-        # TODO: invalidate the cache above
         services = GraphQL.get_all()
 
         with Database(self.db_path) as db:
@@ -84,5 +84,6 @@ class AsyncyHub:
                         state=service['state'],
                         configuration=service['configuration'],
                         readme=service['readme'])
-
+        self.get.cache_clear()
+        self.get_all_service_names.cache_clear()
         return True
