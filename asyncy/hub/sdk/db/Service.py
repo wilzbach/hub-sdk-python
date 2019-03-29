@@ -3,8 +3,6 @@ from asyncy.hub.sdk.db.BaseModel import BaseModel
 
 from peewee import BooleanField, TextField, UUIDField
 
-from playhouse.sqlite_ext import JSONField
-
 
 class Service(BaseModel):
     service_uuid = UUIDField(primary_key=True)
@@ -14,7 +12,7 @@ class Service(BaseModel):
     description = TextField(null=True)
     certified = BooleanField()
     public = BooleanField()
-    topics = JSONField(null=True)
+    topics = TextField(null=True)
     state = TextField()
-    configuration = JSONField()
+    configuration = TextField()
     readme = TextField(null=True)

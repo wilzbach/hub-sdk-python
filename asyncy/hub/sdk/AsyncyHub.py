@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import json
 import os
 import sys
 from threading import Lock
@@ -82,6 +83,17 @@ class AsyncyHub:
                     self.update_cache()
                     service = self._get(alias, owner, name)
 
+        if service is not None:
+            assert isinstance(service, Service)
+            # We store JSON as plain text because some Python installations
+            # do not have support for the json1 extension.
+            # First encountered on CircleCI.
+            if service.topics is not None:
+                service.topics = json.loads(service.topics)
+
+            if service.configuration is not None:
+                service.configuration = json.loads(service.configuration)
+
         return service
 
     def _get(self, alias: str = None, owner: str = None, name: str = None):
@@ -112,9 +124,9 @@ class AsyncyHub:
                         description=service['service']['description'],
                         certified=service['service']['isCertified'],
                         public=service['service']['public'],
-                        topics=service['service']['topics'],
+                        topics=json.dumps(service['service']['topics']),
                         state=service['state'],
-                        configuration=service['configuration'],
+                        configuration=json.dumps(service['configuration']),
                         readme=service['readme'])
 
         with self.update_lock:
