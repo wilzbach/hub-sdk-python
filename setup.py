@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open('README.md') as f:
     readme_contents = f.read()
-
-with open('LICENSE') as f:
-    license_contents = f.read()
 
 setup(
     name='hub-sdk-python',
@@ -16,7 +13,6 @@ setup(
     author='Asyncy',
     author_email='support@asyncy.com',
     url='https://github.com/asyncy/hub-sdk-python',
-    license=license_contents,
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'requests==2.21.0',

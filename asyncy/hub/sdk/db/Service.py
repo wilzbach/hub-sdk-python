@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from peewee import UUIDField, TextField, BooleanField
-from playhouse.sqlite_ext import JSONField
-
 from asyncy.hub.sdk.db.BaseModel import BaseModel
+
+from peewee import BooleanField, TextField, UUIDField
+
+from playhouse.sqlite_ext import JSONField
 
 
 class Service(BaseModel):
@@ -17,6 +18,3 @@ class Service(BaseModel):
     state = TextField()
     configuration = JSONField()
     readme = TextField(null=True)
-
-
-
