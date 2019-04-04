@@ -5,7 +5,7 @@ with open('README.md') as f:
     readme_contents = f.read()
 
 setup(
-    name='hub-sdk-python',
+    name='asyncy-hub',
     version='0.0.1',
     description='A Python SDK to access the Asyncy Hub, '
                 'which supports caching and more',
