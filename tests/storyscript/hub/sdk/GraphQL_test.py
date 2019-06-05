@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from asyncy.hub.sdk.GraphQL import GraphQL
+from storyscript.hub.sdk.GraphQL import GraphQL
 
 
 def test_get_all():

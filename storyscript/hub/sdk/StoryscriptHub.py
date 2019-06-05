@@ -4,17 +4,17 @@ import os
 import sys
 from threading import Lock
 
-from asyncy.hub.sdk.AutoUpdateThread import AutoUpdateThread
-from asyncy.hub.sdk.GraphQL import GraphQL
-from asyncy.hub.sdk.db.Database import Database
-from asyncy.hub.sdk.db.Service import Service
+from storyscript.hub.sdk.AutoUpdateThread import AutoUpdateThread
+from storyscript.hub.sdk.GraphQL import GraphQL
+from storyscript.hub.sdk.db.Database import Database
+from storyscript.hub.sdk.db.Service import Service
 
 from cachetools import TTLCache, cached
 
 from peewee import DoesNotExist
 
 
-class AsyncyHub:
+class StoryscriptHub:
     update_thread = None
 
     retry_lock = Lock()
@@ -34,7 +34,7 @@ class AsyncyHub:
 
     def __init__(self, db_path: str = None, auto_update: bool = True):
         if db_path is None:
-            db_path = AsyncyHub.get_config_dir('.asyncy')
+            db_path = StoryscriptHub.get_config_dir('.storyscript')
 
         os.makedirs(db_path, exist_ok=True)
 
@@ -84,20 +84,24 @@ class AsyncyHub:
                     service = self._get(alias, owner, name)
 
         if service is not None:
-            assert isinstance(service, Service)
             # We store JSON as plain text because some Python installations
             # do not have support for the json1 extension.
             # First encountered on CircleCI.
-            if service.topics is not None:
-                service.topics = json.loads(service.topics)
+            if isinstance(service, Service):
+                if service.topics is not None:
+                    service.topics = json.loads(service.topics)
 
-            if service.configuration is not None:
-                service.configuration = json.loads(service.configuration)
+                if service.configuration is not None:
+                    service.configuration = json.loads(service.configuration)
 
         return service
 
     def _get(self, alias: str = None, owner: str = None, name: str = None):
         try:
+            if alias is not None and alias.count("/") == 1:
+                owner, name = alias.split('/')
+                alias = None
+
             with Database(self.db_path):
                 if alias:
                     service = Service.select().where(Service.alias == alias)
@@ -127,7 +131,8 @@ class AsyncyHub:
                         topics=json.dumps(service['service']['topics']),
                         state=service['state'],
                         configuration=json.dumps(service['configuration']),
-                        readme=service['readme'])
+                        readme=service['readme'],
+                        raw_data=json.dumps(service))
 
         with self.update_lock:
             self.ttl_cache_for_service_names.clear()

@@ -5,14 +5,14 @@ with open('README.md') as f:
     readme_contents = f.read()
 
 setup(
-    name='asyncy-hub',
+    name='story-hub',
     version='0.0.1',
-    description='A Python SDK to access the Asyncy Hub, '
+    description='A Python SDK to access the Storyscript Hub, '
                 'which supports caching and more',
     long_description=readme_contents,
-    author='Asyncy',
-    author_email='support@asyncy.com',
-    url='https://github.com/asyncy/hub-sdk-python',
+    author='Storyscript',
+    author_email='support@storyscript.io',
+    url='https://github.com/storyscript/hub-sdk-python',
     packages=find_packages(exclude=('tests', 'docs')),
     install_requires=[
         'requests==2.21.0',

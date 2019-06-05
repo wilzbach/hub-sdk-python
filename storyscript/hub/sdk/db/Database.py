@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from asyncy.hub.sdk.db.BaseModel import BaseModel
-from asyncy.hub.sdk.db.Service import Service
+from storyscript.hub.sdk.db.BaseModel import BaseModel
+from storyscript.hub.sdk.db.Service import Service
 
 
 class Database:

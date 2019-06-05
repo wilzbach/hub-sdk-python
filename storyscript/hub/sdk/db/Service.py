@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from asyncy.hub.sdk.db.BaseModel import BaseModel
+from storyscript.hub.sdk.db.BaseModel import BaseModel
 
 from peewee import BooleanField, TextField, UUIDField
 
@@ -16,3 +16,4 @@ class Service(BaseModel):
     state = TextField()
     configuration = TextField()
     readme = TextField(null=True)
+    raw_data = TextField(index=False, null=False)

@@ -38,7 +38,7 @@ class GraphQL:
             attempts += 1
 
             try:
-                res = requests.post('https://api.asyncy.com/graphql',
+                res = requests.post('https://api.storyscript.io/graphql',
                                     data=json.dumps({'query': query}),
                                     headers={
                                         'Content-Type': 'application/json'
