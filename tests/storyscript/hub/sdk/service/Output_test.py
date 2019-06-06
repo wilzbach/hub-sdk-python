@@ -1,12 +1,11 @@
 import json
 
-# todo needs improvements
-from storyscript.hub.sdk.service.Argument import Argument
-from storyscript.hub.sdk.service.EventOutput import EventOutput
-from storyscript.hub.sdk.service.HttpOptions import HttpOptions
+from storyscript.hub.sdk.service.Output import Output
+from storyscript.hub.sdk.service.OutputAction import OutputAction
+from storyscript.hub.sdk.service.OutputProperty import OutputProperty
 
-event_output_action_fixture = {
-    "event_output": {
+output_fixture = {
+    "output": {
         "type": "object",
         "actions": {
             "write": {
@@ -45,31 +44,42 @@ event_output_action_fixture = {
     },
 }
 
-event_output_action_fixture_json = json.dumps(event_output_action_fixture)
+output_fixture_json = json.dumps(output_fixture)
 
 
 def test_deserialization(mocker):
-    mocker.patch.object(json, 'loads', return_value=event_output_action_fixture)
+    mocker.patch.object(json, 'loads', return_value=output_fixture)
 
-    mocker.patch.object(HttpOptions, 'from_dict')
-    mocker.patch.object(Argument, 'from_dict')
+    mocker.patch.object(OutputAction, 'from_dict')
+    mocker.patch.object(OutputProperty, 'from_dict')
 
-    assert EventOutput.from_json(jsonstr=event_output_action_fixture_json) is not None
+    output = Output.from_json(jsonstr=output_fixture_json)
 
-    json.loads.assert_called_with(event_output_action_fixture_json)
+    assert output is not None
 
-    HttpOptions.from_dict.assert_called_with(data={
-        "http_options": event_output_action_fixture["event_output"]["actions"]["write"]["http"]
+    json.loads.assert_called_with(output_fixture_json)
+
+    assert output.type() == output_fixture["output"]["type"]
+    assert output.content_type() == output_fixture["output"]["contentType"]
+
+    OutputAction.from_dict.assert_any_call(data={
+        "name": "write",
+        "output_action": output_fixture["output"]["actions"]["write"]
+    })
+
+    OutputProperty.from_dict.assert_called_once_with(data={
+        "name": "query_params",
+        "output_property": output_fixture["output"]["properties"]["query_params"]
     })
 
 
 def test_serialization(mocker):
-    mocker.patch.object(json, 'dumps', return_value=event_output_action_fixture_json)
+    mocker.patch.object(json, 'dumps', return_value=output_fixture_json)
 
-    service_event = EventOutput.from_dict(data=event_output_action_fixture)
+    service_event = Output.from_dict(data=output_fixture)
 
     assert service_event.as_json(compact=True) is not None
-    json.dumps.assert_called_with(event_output_action_fixture, sort_keys=True)
+    json.dumps.assert_called_with(output_fixture, sort_keys=True)
 
     assert service_event.as_json() is not None
-    json.dumps.assert_called_with(event_output_action_fixture, indent=4, sort_keys=True)
+    json.dumps.assert_called_with(output_fixture, indent=4, sort_keys=True)

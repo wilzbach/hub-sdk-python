@@ -4,6 +4,7 @@ from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.Action import Action
 from storyscript.hub.sdk.service.Event import Event
 from storyscript.hub.sdk.service.HttpOptions import HttpOptions
+from storyscript.hub.sdk.service.Output import Output
 
 action_fixture = {
     "name": "write",
@@ -177,7 +178,39 @@ action_fixture = {
                     }
                 }
             }
+        },
+        "output": {
+            "type": "object",
+            "actions": {
+                "redirect": {
+                    "help": "Redirect the incoming URL. No additional actions may be used after executing this command.",
+                    "http": {
+                        "contentType": "application/json",
+                        "use_event_conn": True
+                    },
+                    "arguments": {
+                        "url": {
+                            "in": "responseBody",
+                            "type": "string",
+                            "required": True
+                        },
+                        "query": {
+                            "in": "responseBody",
+                            "help": "These query parameters are appended to the URL specified.",
+                            "type": "map"
+                        }
+                    }
+                }
+            },
+            "properties": {
+                "path": {
+                    "help": "The path portion of th URI of the incoming HTTP request",
+                    "type": "string"
+                }
+            },
+            "contentType": "application/json"
         }
+
     }
 }
 
@@ -191,23 +224,29 @@ def test_deserialization(mocker):
     mocker.patch.object(Argument, 'from_dict')
     mocker.patch.object(Event, 'from_dict')
     mocker.patch.object(HttpOptions, 'from_dict')
+    mocker.patch.object(Output, 'from_dict')
+
 
     assert Action.from_json(jsonstr=action_fixture_json) is not None
 
     json.loads.assert_called_with(action_fixture_json)
 
-    Argument.from_dict.assert_called_with(data={
+    Argument.from_dict.assert_any_call(data={
         "name": "flush",
         "argument": action_fixture["action"]["arguments"]["flush"]
     })
 
-    HttpOptions.from_dict.assert_called_with(data={
+    HttpOptions.from_dict.assert_any_call(data={
         "http_options": action_fixture["action"]["http"]
     })
 
     Event.from_dict.assert_called_with(data={
         "name": "listen",
         "event": action_fixture["action"]["events"]["listen"]
+    })
+
+    Output.from_dict.assert_any_call(data={
+        "output": action_fixture["action"]["output"]
     })
 
 

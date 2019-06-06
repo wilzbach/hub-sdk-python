@@ -27,13 +27,13 @@ http_options_fixture_json = json.dumps(http_options_fixture)
 def test_deserialization(mocker):
     mocker.patch.object(json, 'loads', return_value=http_options_fixture)
 
-    http_options= HttpOptions.from_json(jsonstr=http_options_fixture_json)
+    http_options = HttpOptions.from_json(jsonstr=http_options_fixture_json)
 
     assert http_options is not None
 
     json.loads.assert_called_with(http_options_fixture_json)
 
-    subscribe= HttpOptions.from_dict(data={
+    subscribe = HttpOptions.from_dict(data={
         "http_options": http_options_fixture["http_options"]["subscribe"]
     })
 

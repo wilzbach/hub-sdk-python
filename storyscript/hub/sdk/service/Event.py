@@ -1,6 +1,6 @@
 from storyscript.hub.sdk.service.Argument import Argument
-# from storyscript.hub.sdk.service.EventOutput import EventOutput
-from storyscript.hub.sdk.service.EventOutput import EventOutput
+# from storyscript.hub.sdk.service.Output import Output
+from storyscript.hub.sdk.service.Output import Output
 from storyscript.hub.sdk.service.HttpOptions import HttpOptions
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
@@ -12,13 +12,13 @@ class Event(ServiceObject):
     An individual service event with its arguments.
     """
 
-    def __init__(self, name, help_, args, event_output, http_options, data):
+    def __init__(self, name, help_, args, output, http_options, data):
         super().__init__(data=data)
 
         self._name = name
         self._help = help_
         self._args = args
-        self._output = event_output
+        self._output = output
         self._http_options = http_options
 
     @classmethod
@@ -34,10 +34,10 @@ class Event(ServiceObject):
                     "argument": arg
                 })
 
-        event_output = None
+        output = None
         if 'output' in event:
-            event_output = EventOutput.from_dict(data={
-                "event_output": event["output"]
+            output = Output.from_dict(data={
+                "output": event["output"]
             })
 
         http_options = event.get(
@@ -57,7 +57,7 @@ class Event(ServiceObject):
             name=name,
             help_=help_,
             args=args,
-            event_output=event_output,
+            output=output,
             http_options=http_options,
             data=data
         )

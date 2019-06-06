@@ -2,7 +2,7 @@ from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
-class EventOutputProperty(ServiceObject):
+class OutputProperty(ServiceObject):
     """
     A service output action
     """

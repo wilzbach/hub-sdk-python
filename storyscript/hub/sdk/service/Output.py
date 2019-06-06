@@ -1,52 +1,59 @@
 # from storyscript.hub.sdk.service.Action import Action
-from storyscript.hub.sdk.service.EventOutputAction import EventOutputAction
-from storyscript.hub.sdk.service.EventOutputProperty import EventOutputProperty
+from storyscript.hub.sdk.service.OutputAction import OutputAction
+from storyscript.hub.sdk.service.OutputProperty import OutputProperty
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
 # todo needs enhancements
 
-class EventOutput(ServiceObject):
+class Output(ServiceObject):
     """
     An individual service event output with its arguments.
     """
 
-    def __init__(self, type_, actions, properties, data):
+    def __init__(self, type_, actions, properties, content_type, data):
         super().__init__(data=data)
 
         self._type = type_
         self._actions = actions
         self._properties = properties
+        self._content_type = content_type
 
     @classmethod
     def from_dict(cls, data):
-        event_output = data["event_output"]
+        output = data["output"]
 
         actions = {}
-        if 'actions' in event_output:
-            for action_name, action in event_output['actions'].items():
-                actions[action_name] = EventOutputAction.from_dict(data={
+        if 'actions' in output:
+            for action_name, action in output['actions'].items():
+                actions[action_name] = OutputAction.from_dict(data={
                     "name": action_name,
                     "output_action": action
                 })
 
         properties = {}
-        if 'properties' in event_output:
-            for property_name, output_property in event_output['properties'].items():
-                properties[property_name] = EventOutputProperty.from_dict(data={
+        if 'properties' in output:
+            for property_name, output_property in output['properties'].items():
+                properties[property_name] = OutputProperty.from_dict(data={
                     "name": property_name,
                     "output_property": output_property
                 })
 
         return cls(
-            type_=event_output["type"],
+            type_=output["type"],
             actions=actions,
             properties=properties,
+            content_type=output.get(
+                "contentType", None
+            ),
             data=data
         )
 
     def type(self):
         return self._type
+
+    def content_type(self):
+        return self._content_type
 
     def actions(self):
         return list(self._actions.values())

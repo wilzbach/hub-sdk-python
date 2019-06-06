@@ -1,6 +1,7 @@
 from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.Event import Event
 from storyscript.hub.sdk.service.HttpOptions import HttpOptions
+from storyscript.hub.sdk.service.Output import Output
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
@@ -9,7 +10,7 @@ class Action(ServiceObject):
     A service action that exposes events.
     """
 
-    def __init__(self, name, help_, args, events, http_options, data):
+    def __init__(self, name, help_, args, events, http_options, output, data):
         super().__init__(data=data)
 
         self._name = name
@@ -17,6 +18,7 @@ class Action(ServiceObject):
         self._args = args
         self._events = events
         self._http_options = http_options
+        self._output = output
 
     @classmethod
     def from_dict(cls, data):
@@ -30,6 +32,7 @@ class Action(ServiceObject):
                 args={},
                 events={},
                 http_options=None,
+                output=None,
                 data=data
             )
 
@@ -58,6 +61,13 @@ class Action(ServiceObject):
                 "http_options": http_options
             })
 
+        output = None
+        if 'output' in action:
+            output = Output.from_dict(data={
+                "output": action["output"]
+            })
+
+
         return cls(
             name=name,
             help_=action.get(
@@ -66,6 +76,7 @@ class Action(ServiceObject):
             args=args,
             events=events,
             http_options=http_options,
+            output=output,
             data=data
         )
 
