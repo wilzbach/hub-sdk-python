@@ -123,19 +123,6 @@ configuration_fixture= {
                                         }
                                     }
                                 },
-                                "get_header": {
-                                    "http": {
-                                        "contentType": "application/json",
-                                        "use_event_conn": True
-                                    },
-                                    "arguments": {
-                                        "key": {
-                                            "in": "responseBody",
-                                            "type": "string",
-                                            "required": True
-                                        }
-                                    }
-                                },
                                 "set_header": {
                                     "http": {
                                         "contentType": "application/json",
@@ -153,38 +140,9 @@ configuration_fixture= {
                                             "required": True
                                         }
                                     }
-                                },
-                                "set_status": {
-                                    "http": {
-                                        "contentType": "application/json",
-                                        "use_event_conn": True
-                                    },
-                                    "arguments": {
-                                        "code": {
-                                            "in": "responseBody",
-                                            "type": "int",
-                                            "required": True
-                                        }
-                                    }
                                 }
                             },
                             "properties": {
-                                "uri": {
-                                    "help": "The URI of the incoming HTTP request",
-                                    "type": "string"
-                                },
-                                "body": {
-                                    "help": "The JSON body of the incoming HTTP request",
-                                    "type": "map"
-                                },
-                                "path": {
-                                    "help": "The path portion of th URI of the incoming HTTP request",
-                                    "type": "string"
-                                },
-                                "headers": {
-                                    "help": "The HTTP headers of the incoming HTTP request",
-                                    "type": "map"
-                                },
                                 "query_params": {
                                     "help": "The parsed query parameters of the HTTP request",
                                     "type": "map"

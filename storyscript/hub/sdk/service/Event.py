@@ -5,8 +5,6 @@ from storyscript.hub.sdk.service.HttpOptions import HttpOptions
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
-# todo needs enhancements
-
 class Event(ServiceObject):
     """
     An individual service event with its arguments.

@@ -6,6 +6,7 @@ from uuid import UUID
 from storyscript.hub.sdk.StoryscriptHub import StoryscriptHub
 from storyscript.hub.sdk.GraphQL import GraphQL
 from storyscript.hub.sdk.db.Service import Service
+from storyscript.hub.sdk.service.HubService import HubService
 
 
 class VerifiableService:
@@ -120,3 +121,71 @@ def test_get_with_name(mocker):
     assert hub.get("microservice/redis") is not None
 
     Service.select().where.assert_called_with((Service.username == 'microservice') & (Service.name == 'redis'))
+
+service_fixture = {
+    "service": {
+        "name": "not_python",
+        "alias": "npython",
+        "owner": {
+            "username": "microservice"
+        },
+        "topics": [
+            "npython",
+            "microservice"
+        ],
+        "description": "Don't execute a Python file with arguments.",
+        "isCertified": False,
+        "public": True
+    },
+    "serviceUuid": "0453f136-fe67-4c03-98a9-6ee38165c19e",
+    "state": "BETA",
+    "configuration": {
+        "volumes": {
+            "py": {
+                "target": "/data"
+            }
+        },
+        "entrypoint": {
+            "help": "Don't execute a python file file.",
+            "arguments": {
+                "path": {
+                    "help": "Path to the Python file to not execute.",
+                    "type": "string",
+                    "required": True
+                }
+            }
+        }
+    },
+    "readme": "nothing to see here."
+}
+
+def test_service_wrapper(mocker):
+
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp(), service_wrapper=True)
+
+    mocker.patch.object(GraphQL, "get_all", return_value=[service_fixture])
+
+    mocker.patch.object(HubService, 'from_dict')
+
+    assert hub.get("microservice/not_python") is not None
+
+    HubService.from_dict.assert_called_with(data={
+        "hub_service": service_fixture
+    })
+
+
+def test_get_with_wrap_service(mocker):
+
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp())
+
+    mocker.patch.object(GraphQL, "get_all", return_value=[service_fixture])
+
+    mocker.patch.object(HubService, 'from_dict')
+
+    assert hub.get("microservice/not_python", wrap_service=True) is not None
+
+    HubService.from_dict.assert_called_with(data={
+        "hub_service": service_fixture
+    })
+
+

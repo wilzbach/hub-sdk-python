@@ -4,7 +4,7 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 class HubService(ServiceObject):
     """
-    An individual service
+    A service object that represents data returned by the hub api, and it's configuration
     """
 
     def __init__(self, name, alias, owner, uuid, state, certified, public, topics, description, readme, configuration, data):

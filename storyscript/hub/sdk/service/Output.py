@@ -1,10 +1,7 @@
-# from storyscript.hub.sdk.service.Action import Action
 from storyscript.hub.sdk.service.OutputAction import OutputAction
 from storyscript.hub.sdk.service.OutputProperty import OutputProperty
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
-
-# todo needs enhancements
 
 class Output(ServiceObject):
     """

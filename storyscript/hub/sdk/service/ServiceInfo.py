@@ -1,5 +1,5 @@
 from storyscript.hub.sdk.service.Argument import Argument
-from storyscript.hub.sdk.service.ContactInfo import Contact
+from storyscript.hub.sdk.service.Contact import Contact
 from storyscript.hub.sdk.service.License import License
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
@@ -38,14 +38,14 @@ class ServiceInfo(ServiceObject):
         _license = None
 
         if 'license' in service_info:
-            _license = License.from_dict({
+            _license = License.from_dict(data={
                 "license": service_info["license"]
             })
 
         contact = None
 
         if 'contact' in service_info:
-            contact = Contact.from_dict({
+            contact = Contact.from_dict(data={
                 "contact": service_info["contact"]
             })
 

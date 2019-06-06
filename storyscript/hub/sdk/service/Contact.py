@@ -2,7 +2,9 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
 class Contact(ServiceObject):
-
+    """
+    This represents contact info contained within @ServiceInfo
+    """
     def __init__(self, url, name, email, data):
         super().__init__(data)
 

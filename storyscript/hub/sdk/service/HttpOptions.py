@@ -2,22 +2,6 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
 class HttpOptions(ServiceObject):
-    _example = {"http": {
-        "path": "/digest",
-        "port": 8080,
-        "method": "post",
-        "contentType": "application/json",
-        "use_event_conn": True,
-        "subscribe": {
-            "path": "/stream/subscribe",
-            "method": "post",
-            "contentType": "application/json"
-        },
-        "unsubscribe": {
-            "path": "/stream/unsubscribe",
-            "method": "post"
-        }
-    }}
 
     def __init__(self, path, port, method, content_type, use_event_conn, subscribe, unsubscribe, data):
         super().__init__(data)

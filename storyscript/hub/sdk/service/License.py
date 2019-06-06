@@ -18,7 +18,7 @@ class License(ServiceObject):
                 'url', None
             ),
             name=license_.get(
-                'url', None
+                'name', None
             ),
             data=data
         )

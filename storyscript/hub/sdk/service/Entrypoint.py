@@ -4,6 +4,9 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 class Entrypoint(ServiceObject):
 
+    """
+    This represents an entrypoint configuration for a service.
+    """
     def __init__(self, help_, args, data):
         super().__init__(data)
 
