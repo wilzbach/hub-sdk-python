@@ -403,8 +403,6 @@ def test_deserialization_from_file(mocker):
 def test_deserialization_from_json(mocker):
     expected_hub_services = ["microservice/python", "python"]
 
-    services = []
-
     jsonstr = json.dumps([hub_service_fixture[0]])
 
     hub = ServiceWrapper.from_json(jsonstr)
@@ -412,10 +410,10 @@ def test_deserialization_from_json(mocker):
     assert hub.get_all_service_names() == expected_hub_services
 
     mocker.patch.object(HubService, 'from_dict')
-    assert hub.get('hello') is not None
+    assert hub.get('python') is not None
 
     HubService.from_dict.assert_called_with(data={
-        "hub_service": services[0]
+        "hub_service": hub_service_fixture[0]
     })
 
 

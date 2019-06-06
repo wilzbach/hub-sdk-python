@@ -17,17 +17,17 @@ class Lifecycle(ServiceObject):
         startup = None
 
         if 'startup' in lifecycle:
-            startup = LifecycleOption.from_dict({
+            startup = LifecycleOption.from_dict(data={
                 "type": LifecycleOptionType.STARTUP,
-                "lifecycle_option" : lifecycle['startup']
+                "lifecycle_option": lifecycle['startup']
             })
 
         shutdown = None
 
         if 'shutdown' in lifecycle:
-            shutdown = LifecycleOption.from_dict({
+            shutdown = LifecycleOption.from_dict(data={
                 "type": LifecycleOptionType.SHUTDOWN,
-                "lifecycle_option" : lifecycle['shutdown']
+                "lifecycle_option": lifecycle['shutdown']
             })
 
         return cls(
