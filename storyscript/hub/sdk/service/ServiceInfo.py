@@ -3,22 +3,6 @@ from storyscript.hub.sdk.service.Contact import Contact
 from storyscript.hub.sdk.service.License import License
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
-bullshit = {
-    "info": {
-        "title": "Stockbroker",
-        "license": {
-            "url": "https://opensource.org/licenses/MIT",
-            "name": "MIT"
-        },
-        "version": "0.0.1",
-        "description": "An http service to fetch stock prices",
-        "contact": {
-            "url": "https://github.com/heaptracetechnology/dropbox-microservice",
-            "name": "Rohit Shetty",
-            "email": "rohits@heaptrace.com"
-        }
-    }}
-
 
 class ServiceInfo(ServiceObject):
 
