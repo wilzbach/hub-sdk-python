@@ -138,7 +138,7 @@ class StoryscriptHub:
     def _get(self, alias: str = None, owner: str = None, name: str = None):
         try:
             if alias is not None and alias.count("/") == 1:
-                owner, name = alias.split('/')
+                owner, name = alias.split("/")
                 alias = None
 
             with Database(self.db_path):
