@@ -1,26 +1,9 @@
 import json
 
 from storyscript.hub.sdk.service.HttpOptions import HttpOptions
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-http_options_fixture = {
-    "http_options": {
-        "path": "/digest",
-        "port": 8080,
-        "method": "post",
-        "contentType": "application/json",
-        "use_event_conn": True,
-        "subscribe": {
-            "path": "/stream/subscribe",
-            "method": "post",
-            "contentType": "application/json"
-        },
-        "unsubscribe": {
-            "path": "/stream/unsubscribe",
-            "method": "post"
-        }
-    }
-}
-
+http_options_fixture = JsonFixtureHelper.load_fixture("http_option_fixture")
 http_options_fixture_json = json.dumps(http_options_fixture)
 
 

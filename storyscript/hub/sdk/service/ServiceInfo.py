@@ -1,4 +1,3 @@
-from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.Contact import Contact
 from storyscript.hub.sdk.service.License import License
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject

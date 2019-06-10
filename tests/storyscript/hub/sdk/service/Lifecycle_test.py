@@ -2,18 +2,9 @@ import json
 
 from storyscript.hub.sdk.service.Lifecycle import Lifecycle
 from storyscript.hub.sdk.service.LifecycleOption import LifecycleOption, LifecycleOptionType
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-lifecycle_fixture = {
-    "lifecycle": {
-        "startup": {
-            "command": [
-                "/bin/graphql-engine",
-                "serve"
-            ],
-            "timeout": 5000
-        }
-    }
-}
+lifecycle_fixture = JsonFixtureHelper.load_fixture("lifecycle_fixture")
 
 lifecycle_fixture_json = json.dumps(lifecycle_fixture)
 

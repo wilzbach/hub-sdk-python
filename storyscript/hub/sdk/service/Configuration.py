@@ -1,10 +1,10 @@
 from storyscript.hub.sdk.service.Action import Action
 from storyscript.hub.sdk.service.Command import Command
+from storyscript.hub.sdk.service.Entrypoint import Entrypoint
 from storyscript.hub.sdk.service.EnvironmentVariable import EnvironmentVariable
 from storyscript.hub.sdk.service.Lifecycle import Lifecycle
 from storyscript.hub.sdk.service.ServiceInfo import ServiceInfo
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
-from storyscript.hub.sdk.service.Entrypoint import Entrypoint
 from storyscript.hub.sdk.service.Volume import Volume
 
 

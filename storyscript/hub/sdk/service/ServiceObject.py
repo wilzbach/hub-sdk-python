@@ -2,6 +2,10 @@ import json
 
 
 class ServiceObject:
+    """
+    The service object represents an object stored within the service structure. This makes it easy to
+    form objects from dictionaries and json data.
+    """
 
     def __init__(self, data):
         self._data = data

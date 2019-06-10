@@ -2,19 +2,9 @@ import json
 
 from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.Entrypoint import Entrypoint
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-entry_point_fixture = {
-    "entrypoint": {
-        "help": "Execute a Python file.",
-        "arguments": {
-            "path": {
-                "help": "Path to the Python file to execute.",
-                "type": "string",
-                "required": True
-            }
-        }
-    }
-}
+entry_point_fixture = JsonFixtureHelper.load_fixture("entrypoint_fixture")
 
 entry_point_fixture_json = json.dumps(entry_point_fixture)
 

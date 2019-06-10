@@ -2,19 +2,9 @@ import json
 
 from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.Command import Command
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-command_fixture = {
-    "name": "read",
-    "command": {
-        "description": "just reads something",
-        "arguments": {
-            "path": {
-                "type": "string",
-                "required": True
-            }
-        }
-    }
-}
+command_fixture = JsonFixtureHelper.load_fixture("command_fixture")
 
 command_fixture_json = json.dumps(command_fixture)
 

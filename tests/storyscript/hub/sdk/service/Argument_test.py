@@ -1,14 +1,9 @@
 import json
 
 from storyscript.hub.sdk.service.Argument import Argument
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-argument_fixture = {
-    "name": "path",
-    "argument": {
-        "type": "string",
-        "required": True
-    }
-}
+argument_fixture = JsonFixtureHelper.load_fixture("argument_fixture")
 
 argument_fixture_json = json.dumps(argument_fixture)
 

@@ -1,14 +1,9 @@
 import json
 
 from storyscript.hub.sdk.service.Contact import Contact
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-contact_fixture = {
-    "contact": {
-        "url": "https://storyscript.io",
-        "name": "Aurelien ARINO",
-        "email": "aurelien@storyscript.io"
-    }
-}
+contact_fixture = JsonFixtureHelper.load_fixture("contact_fixture")
 
 contact_fixture_json = json.dumps(contact_fixture)
 

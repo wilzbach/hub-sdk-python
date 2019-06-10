@@ -1,4 +1,3 @@
-from storyscript.hub.sdk.service.Argument import Argument
 from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 

@@ -1,14 +1,9 @@
 import json
 
 from storyscript.hub.sdk.service.OutputProperty import OutputProperty
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-output_property_fixture = {
-    "name": "query_params",
-    "output_property": {
-        "help": "The parsed query parameters of the HTTP request",
-        "type": "map"
-    }
-}
+output_property_fixture = JsonFixtureHelper.load_fixture("output_property_fixture")
 
 output_property_fixture_json = json.dumps(output_property_fixture)
 

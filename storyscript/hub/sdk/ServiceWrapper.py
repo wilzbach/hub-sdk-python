@@ -3,7 +3,7 @@ from uuid import UUID
 
 from storyscript.hub.sdk.GraphQL import GraphQL
 
-from storyscript.hub.sdk.service.HubService import HubService
+from storyscript.hub.sdk.service.ServiceData import ServiceData
 
 
 class UUIDEncoder(json.JSONEncoder):
@@ -13,13 +13,10 @@ class UUIDEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-"""
-The ServiceWrapper provides an improved way to access storyscript hub services
-"""
-
-
 class ServiceWrapper:
-
+    """
+    The ServiceWrapper provides an improved way to access storyscript hub services
+    """
     def __init__(self, services=None):
         self.services = {}
         self.reload_services(services)
@@ -44,13 +41,13 @@ class ServiceWrapper:
 
     @classmethod
     def from_json_file(cls, path=None):
-        services = []
-
         if path is not None:
             with open(path, 'r') as f:
-                services = json.load(f)
+                jsonstr = f.read()
+                f.close()
+                return cls.from_json(jsonstr=jsonstr)
 
-        return cls(services)
+        return cls([])
 
     def reload_services(self, services=None):
         # reset services
@@ -60,8 +57,8 @@ class ServiceWrapper:
         if type(services) is list:
             for service in services:
                 if type(service) is dict:
-                    hub_service = service["service"]
-                    self.services[(hub_service["owner"]["username"] + '/' + hub_service["name"])] = service
+                    service_data = service["service"]
+                    self.services[(service_data["owner"]["username"] + '/' + service_data["name"])] = service
                 elif type(service) is str:
                     # this allows us to utilize dynamic loading
                     if not all_services:
@@ -90,14 +87,10 @@ class ServiceWrapper:
         return json.dumps(services, indent=4, sort_keys=True, cls=UUIDEncoder)
 
     def as_json_file(self, out_file=None):
-        services = []
-
-        for service in self.services:
-            services.append(self.services[service])
-
         if out_file is not None:
             with open(out_file, 'w') as f:
-                json.dump(services, f, indent=4, sort_keys=True, cls=UUIDEncoder)
+                f.write(self.as_json())
+                f.close()
 
     def get_all_service_names(self, include_aliases=True):
         service_names = []
@@ -121,19 +114,19 @@ class ServiceWrapper:
             service = self.services[f'{owner}/{name}']
         else:
             for _service in self.services:
-                hub_service = self.services[_service]["service"]
+                service_data = self.services[_service]["service"]
                 if owner is not None and name is not None and\
-                        hub_service["owner"]["username"] == owner and \
-                        hub_service["name"] == name:
+                        service_data["owner"]["username"] == owner and \
+                        service_data["name"] == name:
                     service = self.services[_service]
-                elif name is not None and hub_service["name"] == name:
+                elif name is not None and service_data["name"] == name:
                     service = self.services[_service]
-                elif alias is not None and (hub_service["alias"] == alias or hub_service["name"] == alias):
+                elif alias is not None and (service_data["alias"] == alias or service_data["name"] == alias):
                     service = self.services[_service]
 
         if service is None:
             return None
         else:
-            return HubService.from_dict(data={
-                "hub_service": service
+            return ServiceData.from_dict(data={
+                "service_data": service
             })

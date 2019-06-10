@@ -1,13 +1,9 @@
 import json
 
 from storyscript.hub.sdk.service.License import License
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-license_fixture = {
-    "license": {
-        "url": "https://opensource.org/licenses/MIT",
-        "name": "MIT"
-    }
-}
+license_fixture = JsonFixtureHelper.load_fixture("license_fixture")
 
 license_fixture_json = json.dumps(license_fixture)
 

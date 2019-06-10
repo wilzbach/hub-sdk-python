@@ -1,37 +1,11 @@
 import json
 
 from storyscript.hub.sdk.service.Argument import Argument
-from storyscript.hub.sdk.service.OutputAction import OutputAction
 from storyscript.hub.sdk.service.HttpOptions import HttpOptions
+from storyscript.hub.sdk.service.OutputAction import OutputAction
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-output_action_fixture = {
-    "name": "write",
-    "output_action": {
-        "http": {
-            "path": "/digest",
-            "port": 8080,
-            "method": "post",
-            "contentType": "application/json",
-            "use_event_conn": True,
-            "subscribe": {
-                "path": "/stream/subscribe",
-                "method": "post",
-                "contentType": "application/json"
-            },
-            "unsubscribe": {
-                "path": "/stream/unsubscribe",
-                "method": "post"
-            }
-        },
-        "arguments": {
-            "flush": {
-                "in": "responseBody",
-                "type": "boolean",
-                "required": False
-            }
-        }
-    }
-}
+output_action_fixture = JsonFixtureHelper.load_fixture("output_action_fixture")
 
 output_action_fixture_json = json.dumps(output_action_fixture)
 

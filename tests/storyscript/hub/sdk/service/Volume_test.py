@@ -1,13 +1,9 @@
 import json
 
 from storyscript.hub.sdk.service.Volume import Volume
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
-volume_fixture = {
-    "name": "py",
-    "volume": {
-        "target": "/data"
-    }
-}
+volume_fixture = JsonFixtureHelper.load_fixture("volume_fixture")
 
 volume_fixture_json = json.dumps(volume_fixture)
 
