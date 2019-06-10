@@ -18,7 +18,7 @@ print("Service Data:", python_service.raw_data)
 ```
 
 ## Advanced Usage
-The HUB SDK provides the ability to safely access the entire hub service data safely.
+The Storyscript Hub SDK provides the ability to safely access the entire hub service data.
 ```python
 from storyscript.hub.sdk.StoryscriptHub import StoryscriptHub
 
