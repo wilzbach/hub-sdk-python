@@ -18,7 +18,6 @@ class JsonFixtureHelper:
 
             with open(path, 'r') as f:
                 jsonstr = f.read()
-                f.close()
 
                 cls._fixture_data = json.loads(jsonstr)
 
