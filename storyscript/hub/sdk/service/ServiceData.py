@@ -5,8 +5,7 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 class ServiceData(ServiceObject):
     """
-    This represents an entire service stored within the Storyscript Hub. It contains all of the data you would
-    normally find within a service object.
+    This represents an entire service stored within the Storyscript Hub.
     """
 
     def __init__(self, name, uuid, service, state, readme, configuration, data):
