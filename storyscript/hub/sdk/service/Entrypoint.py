@@ -3,7 +3,6 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 
 class Entrypoint(ServiceObject):
-
     """
     This represents an entrypoint configuration for a service.
     """
