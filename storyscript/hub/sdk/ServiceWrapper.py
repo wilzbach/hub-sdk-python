@@ -86,7 +86,7 @@ class ServiceWrapper:
 
         return json.dumps(services, indent=4, sort_keys=True, cls=UUIDEncoder)
 
-    def as_json_file(self, out_file=None):
+    def as_json_file(self, out_file):
         if out_file is not None:
             with open(out_file, 'w') as f:
                 f.write(self.as_json())
