@@ -4,23 +4,7 @@ from storyscript.hub.sdk.service.ServiceObject import ServiceObject
 
 class Service(ServiceObject):
     """
-    This represents the "service" data stored within the hub. For example:
-
-    {
-        "service": {
-            "name": "foaas",
-            "alias": null,
-            "owner": {
-              "username": "Arinono"
-            },
-            "topics": [
-              "foaas"
-            ],
-            "description": null,
-            "isCertified": false,
-            "public": true
-          }
-        }
+    This represents the "service" data stored within the hub.
     """
 
     def __init__(self, name, alias, owner, certified, public, topics, description, data):
