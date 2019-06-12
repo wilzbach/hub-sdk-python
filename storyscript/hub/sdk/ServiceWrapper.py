@@ -44,7 +44,6 @@ class ServiceWrapper:
         if path is not None:
             with open(path, 'r') as f:
                 jsonstr = f.read()
-                f.close()
                 return cls.from_json(jsonstr=jsonstr)
 
         return cls([])
@@ -90,7 +89,6 @@ class ServiceWrapper:
         if out_file is not None:
             with open(out_file, 'w') as f:
                 f.write(self.as_json())
-                f.close()
 
     def get_all_service_names(self, include_aliases=True):
         service_names = []
