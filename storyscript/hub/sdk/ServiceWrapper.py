@@ -57,7 +57,8 @@ class ServiceWrapper:
                 if type(service) is dict:
                     service_data = service["service"]
                     self.services[(service_data["owner"]["username"] + '/' + service_data["name"])] = service
-                elif type(service) is str:
+                else:
+                    assert type(service) is str
                     # this allows us to utilize dynamic loading
                     for _service in GraphQL.get_all():
                         service_owner = _service["service"]["owner"]["username"]
