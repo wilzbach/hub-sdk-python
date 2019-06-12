@@ -48,7 +48,7 @@ class ServiceWrapper:
 
         return cls([])
 
-    def reload_services(self, services=None):
+    def reload_services(self, services):
         # reset services
         self.services = {}
 
