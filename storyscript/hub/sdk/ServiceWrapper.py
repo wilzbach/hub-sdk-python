@@ -52,7 +52,6 @@ class ServiceWrapper:
         # reset services
         self.services = {}
 
-        all_services = None
         if type(services) is list:
             for service in services:
                 if type(service) is dict:
@@ -60,10 +59,7 @@ class ServiceWrapper:
                     self.services[(service_data["owner"]["username"] + '/' + service_data["name"])] = service
                 elif type(service) is str:
                     # this allows us to utilize dynamic loading
-                    if not all_services:
-                        all_services = GraphQL.get_all()
-
-                    for _service in all_services:
+                    for _service in GraphQL.get_all():
                         service_owner = _service["service"]["owner"]["username"]
                         service_name = _service["service"]["name"]
                         service_alias = _service["service"]["alias"]
