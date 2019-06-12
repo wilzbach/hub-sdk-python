@@ -31,7 +31,7 @@ class ServiceWrapper:
         return cls(services)
 
     @classmethod
-    def from_json(cls, jsonstr=None):
+    def from_json(cls, jsonstr):
         services = []
 
         if jsonstr is not None:
