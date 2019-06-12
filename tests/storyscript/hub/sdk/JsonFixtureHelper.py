@@ -5,7 +5,7 @@ import os
 class JsonFixtureHelper:
     """
     The JsonFixtureHelper just makes it easier to load fixture data from the json_fixture.json file. It's a massive
-    confusing blob file with some pre-loaded fixture data.
+    blob file with some pre-loaded fixture data.
     """
     _fixture_data = None
 
