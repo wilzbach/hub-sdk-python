@@ -40,13 +40,10 @@ class ServiceWrapper:
         return cls(services)
 
     @classmethod
-    def from_json_file(cls, path=None):
-        if path is not None:
-            with open(path, 'r') as f:
-                jsonstr = f.read()
-                return cls.from_json(jsonstr=jsonstr)
-
-        return cls([])
+    def from_json_file(cls, path):
+        with open(path, 'r') as f:
+            jsonstr = f.read()
+            return cls.from_json(jsonstr=jsonstr)
 
     def reload_services(self, services):
         # reset services
