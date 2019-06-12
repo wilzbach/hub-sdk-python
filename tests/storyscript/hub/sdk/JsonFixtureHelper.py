@@ -14,7 +14,7 @@ class JsonFixtureHelper:
         if cls._fixture_data is None:
 
             dirname = os.path.dirname(__file__)
-            path = dirname + "/json_fixture.json"
+            path = os.path.join(dirname, "json_fixture.json")
 
             with open(path, 'r') as f:
                 jsonstr = f.read()
