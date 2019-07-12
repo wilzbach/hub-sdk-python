@@ -6,10 +6,11 @@ with open('README.md') as f:
 
 setup(
     name='story-hub',
-    version='0.0.1',
+    version='0.0.2',
     description='A Python SDK to access the Storyscript Hub, '
                 'which supports caching and more',
     long_description=readme_contents,
+    long_description_content_type='text/markdown',
     author='Storyscript',
     author_email='support@storyscript.io',
     url='https://github.com/storyscript/hub-sdk-python',
