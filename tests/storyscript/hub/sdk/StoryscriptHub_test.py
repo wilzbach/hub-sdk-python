@@ -3,9 +3,11 @@ import tempfile
 from time import sleep
 from uuid import UUID
 
-from asyncy.hub.sdk.AsyncyHub import AsyncyHub
-from asyncy.hub.sdk.GraphQL import GraphQL
-from asyncy.hub.sdk.db.Service import Service
+from storyscript.hub.sdk.StoryscriptHub import StoryscriptHub
+from storyscript.hub.sdk.GraphQL import GraphQL
+from storyscript.hub.sdk.db.Service import Service
+from storyscript.hub.sdk.service.ServiceData import ServiceData
+from tests.storyscript.hub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
 
 class VerifiableService:
@@ -79,7 +81,7 @@ def test_caching(mocker):
     registered_services = [actual_service.service]
 
     mocker.patch.object(GraphQL, 'get_all', return_value=registered_services)
-    hub = AsyncyHub(db_path=tempfile.mkdtemp())
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp())
     # No need to call update_cache explicitly, since the background thread will
     # call it. Just sleep for a split second.
     # hub.update_cache()
@@ -110,3 +112,44 @@ def test_caching(mocker):
     actual_service = hub.get(alias='second_service')
 
     assert actual_service is not None
+
+
+def test_get_with_name(mocker):
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp())
+    mocker.patch.object(Service, 'select')
+
+    assert hub.get("microservice/redis") is not None
+
+    Service.select().where.assert_called_with((Service.username == 'microservice') & (Service.name == 'redis'))
+
+
+not_python_fixture = JsonFixtureHelper.load_fixture("not_python_fixture")
+
+
+def test_service_wrapper(mocker):
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp(), service_wrapper=True)
+
+
+    mocker.patch.object(GraphQL, "get_all", return_value=[not_python_fixture])
+
+    mocker.patch.object(ServiceData, 'from_dict')
+
+    assert hub.get("microservice/not_python") is not None
+
+    ServiceData.from_dict.assert_called_with(data={
+        "service_data": not_python_fixture
+    })
+
+
+def test_get_with_wrap_service(mocker):
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp())
+
+    mocker.patch.object(GraphQL, "get_all", return_value=[not_python_fixture])
+
+    mocker.patch.object(ServiceData, 'from_dict')
+
+    assert hub.get("microservice/not_python", wrap_service=True) is not None
+
+    ServiceData.from_dict.assert_called_with(data={
+        "service_data": not_python_fixture
+    })

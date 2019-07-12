@@ -3,18 +3,23 @@ import json
 import os
 import sys
 from threading import Lock
+from typing import Union
+from unittest.mock import MagicMock
 
-from asyncy.hub.sdk.AutoUpdateThread import AutoUpdateThread
-from asyncy.hub.sdk.GraphQL import GraphQL
-from asyncy.hub.sdk.db.Database import Database
-from asyncy.hub.sdk.db.Service import Service
+from storyscript.hub.sdk.ServiceWrapper import ServiceWrapper
+from storyscript.hub.sdk.AutoUpdateThread import AutoUpdateThread
+from storyscript.hub.sdk.GraphQL import GraphQL
+from storyscript.hub.sdk.db.Database import Database
+from storyscript.hub.sdk.db.Service import Service
 
 from cachetools import TTLCache, cached
 
 from peewee import DoesNotExist
 
+from storyscript.hub.sdk.service.ServiceData import ServiceData
 
-class AsyncyHub:
+
+class StoryscriptHub:
     update_thread = None
 
     retry_lock = Lock()
@@ -32,13 +37,28 @@ class AsyncyHub:
 
         return os.path.join(p, app)
 
-    def __init__(self, db_path: str = None, auto_update: bool = True):
+    def __init__(self, db_path: str = None, auto_update: bool = True, service_wrapper=False):
+        """
+        StoryscriptHub - a utility to access Storyscript's hub service data.
+
+        :param db_path: The path for the database caching file
+        :param auto_update: Will automatically pull services from the hub every 30 seconds
+        :param service_wrapper: Allows you to utilize safe ServiceData objects
+        """
+
         if db_path is None:
-            db_path = AsyncyHub.get_config_dir('.asyncy')
+            db_path = StoryscriptHub.get_config_dir('.storyscript')
 
         os.makedirs(db_path, exist_ok=True)
 
         self.db_path = db_path
+
+        self._service_wrapper = None
+        if service_wrapper:
+            self._service_wrapper = ServiceWrapper()
+            # we need to update the cache immediately for the
+            # service wrapper to initialize data.
+            self.update_cache()
 
         if auto_update:
             self.update_thread = AutoUpdateThread(
@@ -64,16 +84,26 @@ class AsyncyHub:
         return services
 
     @cached(cache=ttl_cache_for_services)
-    def get(self, alias=None, owner=None, name=None) -> Service:
+    def get(self, alias=None, owner=None, name=None, wrap_service=False) -> Union[Service, ServiceData]:
         """
         Get a service from the database.
 
         :param alias: Takes precedence when specified over owner/name
         :param owner: The owner of the service
         :param name: The name of the service
+        :param wrap_service: When set to true, it will return a @ServiceData object
         :return: Returns a Service instance, with all fields populated
         """
-        service = self._get(alias, owner, name)
+
+        service = None
+
+        # check if the service_wrapper was initialized for automatic
+        # wrapping
+        if self._service_wrapper is not None:
+            service = self._service_wrapper.get(alias=alias, owner=owner, name=name)
+
+        if service is None:
+            service = self._get(alias, owner, name)
 
         if service is None:
             # Maybe it's new in the Hub?
@@ -84,10 +114,19 @@ class AsyncyHub:
                     service = self._get(alias, owner, name)
 
         if service is not None:
-            assert isinstance(service, Service)
-            # We store JSON as plain text because some Python installations
-            # do not have support for the json1 extension.
-            # First encountered on CircleCI.
+            # ensures test don't break
+            if isinstance(service, MagicMock):
+                return service
+
+            assert isinstance(service, Service) or isinstance(service, ServiceData)
+            # if the service wrapper is set, and the service doesn't exist
+            # we can safely convert this object since it was probably loaded
+            # from the cache
+            if wrap_service or self._service_wrapper is not None:
+                return ServiceData.from_dict(data={
+                    "service_data": json.loads(service.raw_data)
+                })
+
             if service.topics is not None:
                 service.topics = json.loads(service.topics)
 
@@ -98,6 +137,10 @@ class AsyncyHub:
 
     def _get(self, alias: str = None, owner: str = None, name: str = None):
         try:
+            if alias is not None and alias.count("/") == 1:
+                owner, name = alias.split("/")
+                alias = None
+
             with Database(self.db_path):
                 if alias:
                     service = Service.select().where(Service.alias == alias)
@@ -111,6 +154,10 @@ class AsyncyHub:
 
     def update_cache(self):
         services = GraphQL.get_all()
+
+        # tell the service wrapper to reload any services from the cache.
+        if self._service_wrapper is not None:
+            self._service_wrapper.reload_services(services)
 
         with Database(self.db_path) as db:
             with db.atomic(lock_type='IMMEDIATE'):
@@ -127,7 +174,8 @@ class AsyncyHub:
                         topics=json.dumps(service['service']['topics']),
                         state=service['state'],
                         configuration=json.dumps(service['configuration']),
-                        readme=service['readme'])
+                        readme=service['readme'],
+                        raw_data=json.dumps(service))
 
         with self.update_lock:
             self.ttl_cache_for_service_names.clear()
