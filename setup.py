@@ -7,7 +7,7 @@ with open('README.md') as f:
 
 setup(
     name='story-hub',
-    version='0.0.3',
+    version='0.0.4',
     description='A Python SDK to access the Storyscript Hub, '
                 'which supports caching and more',
     long_description=readme_contents,
