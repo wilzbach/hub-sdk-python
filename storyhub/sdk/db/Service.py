@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from storyhub.sdk.db.BaseModel import BaseModel
-
 from peewee import BooleanField, TextField, UUIDField
+
+from storyhub.sdk.db.BaseModel import BaseModel
 
 
 class Service(BaseModel):

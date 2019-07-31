@@ -7,7 +7,7 @@ class Argument(ServiceObject):
     """
 
     def __init__(self, name, help_, type_, data):
-        super().__init__(data = data)
+        super().__init__(data=data)
 
         self._name = name
         self._help_ = help_

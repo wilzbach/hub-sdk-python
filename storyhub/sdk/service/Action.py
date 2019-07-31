@@ -67,7 +67,6 @@ class Action(ServiceObject):
                 "output": action["output"]
             })
 
-
         return cls(
             name=name,
             help_=action.get(

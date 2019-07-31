@@ -3,7 +3,8 @@ import json
 
 class ServiceObject:
     """
-    The service object represents an object stored within the service structure.
+    The service object represents an object stored within the
+    service structure.
     """
 
     def __init__(self, data):

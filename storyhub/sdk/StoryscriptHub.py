@@ -6,16 +6,15 @@ from threading import Lock
 from typing import Union
 from unittest.mock import MagicMock
 
-from storyhub.sdk.ServiceWrapper import ServiceWrapper
-from storyhub.sdk.AutoUpdateThread import AutoUpdateThread
-from storyhub.sdk.GraphQL import GraphQL
-from storyhub.sdk.db.Database import Database
-from storyhub.sdk.db.Service import Service
-
 from cachetools import TTLCache, cached
 
 from peewee import DoesNotExist
 
+from storyhub.sdk.AutoUpdateThread import AutoUpdateThread
+from storyhub.sdk.GraphQL import GraphQL
+from storyhub.sdk.ServiceWrapper import ServiceWrapper
+from storyhub.sdk.db.Database import Database
+from storyhub.sdk.db.Service import Service
 from storyhub.sdk.service.ServiceData import ServiceData
 
 
@@ -37,12 +36,14 @@ class StoryscriptHub:
 
         return os.path.join(p, app)
 
-    def __init__(self, db_path: str = None, auto_update: bool = True, service_wrapper=False):
+    def __init__(self, db_path: str = None, auto_update: bool = True,
+                 service_wrapper=False):
         """
         StoryscriptHub - a utility to access Storyscript's hub service data.
 
         :param db_path: The path for the database caching file
-        :param auto_update: Will automatically pull services from the hub every 30 seconds
+        :param auto_update: Will automatically pull services from the hub
+        every 30 seconds
         :param service_wrapper: Allows you to utilize safe ServiceData objects
         """
 
@@ -84,14 +85,16 @@ class StoryscriptHub:
         return services
 
     @cached(cache=ttl_cache_for_services)
-    def get(self, alias=None, owner=None, name=None, wrap_service=False) -> Union[Service, ServiceData]:
+    def get(self, alias=None, owner=None, name=None,
+            wrap_service=False) -> Union[Service, ServiceData]:
         """
         Get a service from the database.
 
         :param alias: Takes precedence when specified over owner/name
         :param owner: The owner of the service
         :param name: The name of the service
-        :param wrap_service: When set to true, it will return a @ServiceData object
+        :param wrap_service: When set to true, it will return a
+        @ServiceData object
         :return: Returns a Service instance, with all fields populated
         """
 
@@ -100,7 +103,8 @@ class StoryscriptHub:
         # check if the service_wrapper was initialized for automatic
         # wrapping
         if self._service_wrapper is not None:
-            service = self._service_wrapper.get(alias=alias, owner=owner, name=name)
+            service = self._service_wrapper.get(alias=alias, owner=owner,
+                                                name=name)
 
         if service is None:
             service = self._get(alias, owner, name)
@@ -118,7 +122,8 @@ class StoryscriptHub:
             if isinstance(service, MagicMock):
                 return service
 
-            assert isinstance(service, Service) or isinstance(service, ServiceData)
+            assert isinstance(service, Service) or \
+                isinstance(service, ServiceData)
             # if the service wrapper is set, and the service doesn't exist
             # we can safely convert this object since it was probably loaded
             # from the cache

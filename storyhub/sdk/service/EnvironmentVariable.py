@@ -4,11 +4,12 @@ from storyhub.sdk.service.ServiceObject import ServiceObject
 class EnvironmentVariable(ServiceObject):
 
     """
-    This represents an environmental variable that would be stored within the configuration object
-    of a service.
+    This represents an environmental variable that would be
+    stored within the configuration object of a service.
     """
 
-    def __init__(self, name, help_, type_, pattern, required, default, sensitive, data):
+    def __init__(self, name, help_, type_, pattern, required, default,
+                 sensitive, data):
         super().__init__(data)
 
         self._name = name

@@ -28,4 +28,3 @@ class Volume(ServiceObject):
 
     def target(self):
         return self._target
-

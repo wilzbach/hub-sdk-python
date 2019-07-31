@@ -2,7 +2,6 @@ import json
 from uuid import UUID
 
 from storyhub.sdk.GraphQL import GraphQL
-
 from storyhub.sdk.service.ServiceData import ServiceData
 
 
@@ -15,7 +14,8 @@ class UUIDEncoder(json.JSONEncoder):
 
 class ServiceWrapper:
     """
-    The ServiceWrapper provides an improved way to access storyscript hub services
+    The ServiceWrapper provides an improved way to access storyscript
+    hub services
     """
     def __init__(self, services=None):
         self.services = {}
@@ -53,16 +53,20 @@ class ServiceWrapper:
             for service in services:
                 if type(service) is dict:
                     service_data = service["service"]
-                    self.services[(service_data["owner"]["username"] + '/' + service_data["name"])] = service
+                    self.services[(service_data["owner"]["username"] + '/' +
+                                   service_data["name"])] = service
                 else:
                     assert type(service) is str
                     # this allows us to utilize dynamic loading
                     for _service in GraphQL.get_all():
-                        service_owner = _service["service"]["owner"]["username"]
-                        service_name = _service["service"]["name"]
-                        service_alias = _service["service"]["alias"]
-                        if service == service_owner + "/" + service_name or service == service_alias:
-                            self.services[service_owner + "/" + service_name] = _service
+                        service_service = _service["service"]
+                        service_owner = service_service["owner"]["username"]
+                        service_name = service_service["name"]
+                        service_alias = service_service["alias"]
+                        if service == service_owner + "/" + service_name or \
+                                service == service_alias:
+                            self.services[service_owner + "/" + service_name] \
+                                = _service
 
         elif type(services) is dict:
             for service in services:
@@ -92,7 +96,8 @@ class ServiceWrapper:
             service_names.append(service)
             alias = _service["alias"]
 
-            if include_aliases and alias is not None and alias not in service_names:
+            if include_aliases and alias is not None \
+                    and alias not in service_names:
                 service_names.append(alias)
 
         return service_names
@@ -113,7 +118,8 @@ class ServiceWrapper:
                     service = self.services[_service]
                 elif name is not None and service_data["name"] == name:
                     service = self.services[_service]
-                elif alias is not None and (service_data["alias"] == alias or service_data["name"] == alias):
+                elif alias is not None and (service_data["alias"] == alias or
+                                            service_data["name"] == alias):
                     service = self.services[_service]
 
         if service is None:

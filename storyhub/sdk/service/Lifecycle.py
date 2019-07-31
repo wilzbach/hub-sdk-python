@@ -1,4 +1,5 @@
-from storyhub.sdk.service.LifecycleOption import LifecycleOption, LifecycleOptionType
+from storyhub.sdk.service.LifecycleOption import LifecycleOption, \
+    LifecycleOptionType
 from storyhub.sdk.service.ServiceObject import ServiceObject
 
 

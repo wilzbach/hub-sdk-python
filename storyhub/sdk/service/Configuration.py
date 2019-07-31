@@ -13,7 +13,8 @@ class Configuration(ServiceObject):
     Represents a service configuration
     """
 
-    def __init__(self, actions, commands, volumes, entrypoint, service_info, environment_variables, lifecycle, data):
+    def __init__(self, actions, commands, volumes, entrypoint, service_info,
+                 environment_variables, lifecycle, data):
         super().__init__(data)
 
         self._actions = actions
@@ -23,7 +24,6 @@ class Configuration(ServiceObject):
         self._info = service_info
         self._environment_variables = environment_variables
         self._lifecycle = lifecycle
-
 
     @classmethod
     def from_dict(cls, data):
@@ -73,11 +73,13 @@ class Configuration(ServiceObject):
 
         environment_variables = {}
         if 'environment' in configuration:
-            for name, environment_variable in configuration['environment'].items():
-                environment_variables[name] = EnvironmentVariable.from_dict(data={
-                    "name": name,
-                    "environment_variable": environment_variable
-                })
+            for name, environment_variable in configuration['environment']\
+                    .items():
+                environment_variables[name] = EnvironmentVariable.from_dict(
+                    data={
+                        "name": name,
+                        "environment_variable": environment_variable
+                    })
 
         return cls(
             actions=actions,

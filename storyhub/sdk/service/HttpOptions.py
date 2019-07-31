@@ -3,7 +3,8 @@ from storyhub.sdk.service.ServiceObject import ServiceObject
 
 class HttpOptions(ServiceObject):
 
-    def __init__(self, path, port, method, content_type, use_event_conn, subscribe, unsubscribe, data):
+    def __init__(self, path, port, method, content_type, use_event_conn,
+                 subscribe, unsubscribe, data):
         super().__init__(data)
 
         self._path = path

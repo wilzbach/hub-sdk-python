@@ -8,7 +8,8 @@ class ServiceData(ServiceObject):
     This represents an entire service stored within the Storyscript Hub.
     """
 
-    def __init__(self, name, uuid, service, state, readme, configuration, data):
+    def __init__(self, name, uuid, service, state, readme,
+                 configuration, data):
         super().__init__(data)
 
         self._name = name
@@ -40,8 +41,8 @@ class ServiceData(ServiceObject):
 
     def name(self):
         """
-        This acts as a helper for easily accessing the name of the service. For example the value stored
-         within {"service":{"name":"helloworld"}}
+        This acts as a helper for easily accessing the name of the service.
+        For example the value stored within {"service":{"name":"helloworld"}}
 
         :return: service name
         """
