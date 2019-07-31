@@ -6,7 +6,7 @@ A Python SDK to access the Storyscript Hub, which supports caching and more
 
 ## Legacy Usage
 ```python
-from storyscript.hub.sdk.StoryscriptHub import StoryscriptHub
+from storyhub.sdk.StoryscriptHub import StoryscriptHub
 
 python_service = StoryscriptHub().get("python")
 
@@ -20,7 +20,7 @@ print("Service Data:", python_service.raw_data)
 ## Advanced Usage
 The Storyscript Hub SDK provides the ability to safely access the entire hub service data.
 ```python
-from storyscript.hub.sdk.StoryscriptHub import StoryscriptHub
+from storyhub.sdk.StoryscriptHub import StoryscriptHub
 
 # tell the hub sdk to utilize the service wrapper 
 # making it easy to access objects safely
