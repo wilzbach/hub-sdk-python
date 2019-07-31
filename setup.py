@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 from setuptools import find_packages, setup
 
-with open('README.md') as f:
-    readme_contents = f.read()
+readme_contents = 'A Python SDK to access the Storyscript Hub, '
+'which supports caching and more'
 
 setup(
     name='story-hub',
