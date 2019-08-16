@@ -56,3 +56,15 @@ def test_serialization(mocker):
     assert service_action.as_json() is not None
     json.dumps.assert_called_with(action_fixture, indent=4, sort_keys=True)
 
+
+def test_getters(mocker):
+
+    action = Action.from_json(jsonstr=action_fixture_json)
+
+    action_output = action.output()
+    assert action_output.type() == action_fixture['action']['output']['type']
+
+    action_args = action.args()
+    assert len(action_args) == len(action_fixture['action']['arguments'])
+    for arg in action_args:
+        assert arg.name() in action_fixture['action']['arguments']
