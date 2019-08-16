@@ -29,3 +29,19 @@ def test_serialization(mocker):
     assert service_command.as_json() is not None
     json.dumps.assert_called_with(argument_fixture, indent=4, sort_keys=True)
 
+
+def test_getters(mocker):
+
+    argument = Argument.from_dict(data=argument_fixture)
+
+    argument_name = argument.name()
+    assert argument_name == argument_fixture['name']
+
+    argument_help = argument.help()
+    assert argument_help == '.not.available'
+
+    argument_type = argument.type()
+    assert argument_type == argument_fixture['argument']['type']
+
+    argument_required = argument.required()
+    assert argument_required == argument_fixture['argument']['required']
