@@ -14,6 +14,9 @@ List[A] unique -> List[A]
 List[A] remove item:A -> A
 List[A] index of:A -> int
 List[A] replace item:A by:A -> List[A]
+List[A] slice start:int -> List[A]
+List[A] slice start:int end:int -> List[A]
+List[A] slice end:int -> List[A]
 
 Map[K,V] length -> int
 Map[K,V] keys -> List[K]
