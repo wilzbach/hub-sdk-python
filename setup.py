@@ -7,7 +7,7 @@ readme_contents = 'A Python SDK to access the Storyscript Hub, '
 
 setup(
     name='story-hub',
-    version='0.1.3',
+    version='0.1.4',
     description='A Python SDK to access the Storyscript Hub, '
                 'which supports caching and more',
     long_description=readme_contents,
