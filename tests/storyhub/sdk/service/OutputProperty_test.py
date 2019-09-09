@@ -26,3 +26,13 @@ def test_serialization(mocker):
 
     assert service_event.as_json() is not None
     json.dumps.assert_called_with(output_property_fixture, indent=4, sort_keys=True)
+
+
+def test_getters(mocker):
+
+    property = OutputProperty.from_json(jsonstr=output_property_fixture_json)
+
+    assert property.type() == \
+        output_property_fixture['output_property']['type']
+
+    assert property.name() == output_property_fixture["name"]

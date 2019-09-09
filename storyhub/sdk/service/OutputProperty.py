@@ -3,7 +3,7 @@ from storyhub.sdk.service.ServiceObject import ServiceObject
 
 class OutputProperty(ServiceObject):
     """
-    A service output action
+    A service output Property.
     """
 
     def __init__(self, name, type_, help_, data):
@@ -33,5 +33,5 @@ class OutputProperty(ServiceObject):
     def help(self):
         return self._help_
 
-    def type(self, name):
-        return self._type.get(name, None)
+    def type(self):
+        return self._type
