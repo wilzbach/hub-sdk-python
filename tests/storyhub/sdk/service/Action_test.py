@@ -68,3 +68,6 @@ def test_getters(mocker):
     assert len(action_args) == len(action_fixture['action']['arguments'])
     for arg in action_args:
         assert arg.name() in action_fixture['action']['arguments']
+
+    action_help = action.help()
+    assert action_help == 'No help available.'

@@ -36,4 +36,3 @@ def test_serialization(mocker):
 
     assert service_command.as_json() is not None
     json.dumps.assert_called_with(command_fixture, indent=4, sort_keys=True)
-

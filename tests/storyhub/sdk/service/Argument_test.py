@@ -38,7 +38,7 @@ def test_getters(mocker):
     assert argument_name == argument_fixture['name']
 
     argument_help = argument.help()
-    assert argument_help == '.not.available'
+    assert argument_help == 'No help available.'
 
     argument_type = argument.type()
     assert argument_type == argument_fixture['argument']['type']

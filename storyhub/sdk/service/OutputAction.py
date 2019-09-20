@@ -12,7 +12,7 @@ class OutputAction(ServiceObject):
         super().__init__(data=data)
 
         self._name = name
-        self._help_ = help_
+        self._help = help_
         self._args = args
         self._http_options = http_options
 
@@ -41,7 +41,7 @@ class OutputAction(ServiceObject):
         return cls(
             name=name,
             help_=output_action.get(
-                'help', 'No help_ available'
+                'help', 'No help available.'
             ),
             args=args,
             http_options=http_options,
@@ -52,7 +52,7 @@ class OutputAction(ServiceObject):
         return self._name
 
     def help(self):
-        return self._help_
+        return self._help
 
     def args(self):
         return list(self._args.values())

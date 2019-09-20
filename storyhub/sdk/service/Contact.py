@@ -14,16 +14,16 @@ class Contact(ServiceObject):
 
     @classmethod
     def from_dict(cls, data):
-        contact_ = data["contact"]
+        contact = data["contact"]
 
         return cls(
-            url=contact_.get(
+            url=contact.get(
                 'url', None
             ),
-            name=contact_.get(
+            name=contact.get(
                 'url', None
             ),
-            email=contact_.get(
+            email=contact.get(
                 'email', None
             ),
             data=data

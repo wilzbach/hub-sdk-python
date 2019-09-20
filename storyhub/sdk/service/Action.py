@@ -70,7 +70,7 @@ class Action(ServiceObject):
         return cls(
             name=name,
             help_=action.get(
-                'help_', 'No help_ available'
+                'help', 'No help available.'
             ),
             args=args,
             events=events,

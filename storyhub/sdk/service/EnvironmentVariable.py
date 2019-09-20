@@ -28,7 +28,7 @@ class EnvironmentVariable(ServiceObject):
         return cls(
             name=name,
             help_=environment_variable.get(
-                'help', 'No description available'
+                'help', 'No help available.'
             ),
             type_=environment_variable["type"],
             pattern=environment_variable.get(

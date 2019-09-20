@@ -47,7 +47,7 @@ class Event(ServiceObject):
             })
 
         help_ = event.get(
-            'help', 'No help_ available'
+            'help', 'No help available.'
         )
 
         return cls(

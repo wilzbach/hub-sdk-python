@@ -10,7 +10,7 @@ class OutputProperty(ServiceObject):
         super().__init__(data=data)
 
         self._name = name
-        self._help_ = help_
+        self._help = help_
         self._type = type_
 
     @classmethod
@@ -22,7 +22,7 @@ class OutputProperty(ServiceObject):
             name=name,
             type_=output_property["type"],
             help_=output_property.get(
-                'help', 'No help_ available'
+                'help', 'No help available.'
             ),
             data=data
         )
@@ -31,7 +31,7 @@ class OutputProperty(ServiceObject):
         return self._name
 
     def help(self):
-        return self._help_
+        return self._help
 
     def type(self):
         return self._type

@@ -18,10 +18,10 @@ class ServiceInfo(ServiceObject):
     def from_dict(cls, data):
         service_info = data["service_info"]
 
-        _license = None
+        license_ = None
 
         if 'license' in service_info:
-            _license = License.from_dict(data={
+            license_ = License.from_dict(data={
                 "license": service_info["license"]
             })
 
@@ -36,7 +36,7 @@ class ServiceInfo(ServiceObject):
             title=service_info.get(
                 "title", None
             ),
-            license_=_license,
+            license_=license_,
             version=service_info.get(
                 "version", None
             ),

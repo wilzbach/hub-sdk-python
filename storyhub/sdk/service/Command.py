@@ -11,7 +11,7 @@ class Command(ServiceObject):
         super().__init__(data=data)
 
         self._name = name
-        self._help_ = help_
+        self._help = help_
         self._args = args
 
     @classmethod
@@ -27,7 +27,7 @@ class Command(ServiceObject):
                 })
 
         help_ = command.get(
-            'help', 'No help_ available'
+            'help', 'No help available.'
         )
         return cls(
             name=name,
@@ -40,7 +40,7 @@ class Command(ServiceObject):
         return self._name
 
     def help(self):
-        return self._help_
+        return self._help
 
     def args(self):
         return list(self._args.values())

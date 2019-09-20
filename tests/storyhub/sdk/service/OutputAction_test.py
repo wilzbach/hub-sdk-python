@@ -40,3 +40,9 @@ def test_serialization(mocker):
 
     assert service_event.as_json() is not None
     json.dumps.assert_called_with(output_action_fixture, indent=4, sort_keys=True)
+
+
+def test_getters(mocker):
+    output_action = OutputAction.from_json(jsonstr=output_action_fixture_json)
+
+    assert output_action.help() == "No help available."
