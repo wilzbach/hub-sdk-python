@@ -36,15 +36,13 @@ class StoryscriptHub:
 
         return os.path.join(p, app)
 
-    def __init__(self, db_path: str = None, auto_update: bool = True,
-                 service_wrapper=False):
+    def __init__(self, db_path: str = None, auto_update: bool = True):
         """
         StoryscriptHub - a utility to access Storyscript's hub service data.
 
         :param db_path: The path for the database caching file
         :param auto_update: Will automatically pull services from the hub
         every 30 seconds
-        :param service_wrapper: Allows you to utilize safe ServiceData objects
         """
 
         if db_path is None:
@@ -54,12 +52,12 @@ class StoryscriptHub:
 
         self.db_path = db_path
 
-        self._service_wrapper = None
-        if service_wrapper:
-            self._service_wrapper = ServiceWrapper()
-            # we need to update the cache immediately for the
-            # service wrapper to initialize data.
-            self.update_cache()
+        # We are not updating cache over here since, it makes
+        # startup slow. If need arises in case of missing service
+        # we will update the cache. For long running service
+        # cache will be updated automatically as well via the
+        # AutoUpdateThread.
+        self._service_wrapper = ServiceWrapper()
 
         if auto_update:
             self.update_thread = AutoUpdateThread(
@@ -85,26 +83,23 @@ class StoryscriptHub:
         return services
 
     @cached(cache=ttl_cache_for_services)
-    def get(self, alias=None, owner=None, name=None,
-            wrap_service=False) -> Union[Service, ServiceData]:
+    def get(self, alias=None, owner=None,
+            name=None) -> Union[Service, ServiceData]:
         """
         Get a service from the database.
 
         :param alias: Takes precedence when specified over owner/name
         :param owner: The owner of the service
         :param name: The name of the service
-        :param wrap_service: When set to true, it will return a
-        @ServiceData object
-        :return: Returns a Service instance, with all fields populated
+        :return: Returns a @ServiceData object instance.
         """
 
         service = None
 
-        # check if the service_wrapper was initialized for automatic
-        # wrapping
-        if self._service_wrapper is not None:
-            service = self._service_wrapper.get(alias=alias, owner=owner,
-                                                name=name)
+        service = self._service_wrapper.get(alias=alias, owner=owner,
+                                            name=name)
+        if service is not None:
+            return service
 
         if service is None:
             service = self._get(alias, owner, name)
@@ -122,21 +117,12 @@ class StoryscriptHub:
             if isinstance(service, MagicMock):
                 return service
 
-            assert isinstance(service, Service) or \
-                isinstance(service, ServiceData)
-            # if the service wrapper is set, and the service doesn't exist
+            assert isinstance(service, Service)
             # we can safely convert this object since it was probably loaded
             # from the cache
-            if wrap_service or self._service_wrapper is not None:
-                return ServiceData.from_dict(data={
-                    "service_data": json.loads(service.raw_data)
-                })
-
-            if service.topics is not None:
-                service.topics = json.loads(service.topics)
-
-            if service.configuration is not None:
-                service.configuration = json.loads(service.configuration)
+            return ServiceData.from_dict(data={
+                "service_data": json.loads(service.raw_data)
+            })
 
         return service
 
