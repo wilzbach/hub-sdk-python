@@ -53,3 +53,6 @@ class Service(ServiceObject):
 
     def public(self):
         return self._public
+
+    def topics(self):
+        return self._topics
