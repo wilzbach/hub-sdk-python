@@ -48,3 +48,9 @@ def test_serialization(mocker):
 
     assert service_event.as_json() is not None
     json.dumps.assert_called_with(event_fixture, indent=4, sort_keys=True)
+
+
+def test_getters(mocker):
+    service_event = Event.from_json(jsonstr=event_fixture_json)
+
+    assert service_event.help() == event_fixture['event']['help']

@@ -26,7 +26,7 @@ class Entrypoint(ServiceObject):
 
         return cls(
             help_=entrypoint.get(
-                'help_', 'No description available'
+                'help', 'No help available.'
             ),
             args=args,
             data=data

@@ -36,3 +36,6 @@ def test_getters(mocker):
         output_property_fixture['output_property']['type']
 
     assert property.name() == output_property_fixture["name"]
+
+    assert property.help() == \
+        output_property_fixture['output_property']['help']

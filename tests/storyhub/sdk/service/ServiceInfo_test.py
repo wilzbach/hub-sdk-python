@@ -44,3 +44,10 @@ def test_serialization(mocker):
 
     assert service_event.as_json() is not None
     json.dumps.assert_called_with(service_info_fixture, indent=4, sort_keys=True)
+
+
+def test_getters(mocker):
+    service_info = ServiceInfo.from_json(jsonstr=service_info_fixture_json)
+
+    assert service_info.description() == \
+        service_info_fixture['service_info']['description']

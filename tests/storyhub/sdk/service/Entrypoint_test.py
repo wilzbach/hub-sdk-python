@@ -38,3 +38,8 @@ def test_serialization(mocker):
     assert service_entry_point.as_json() is not None
     json.dumps.assert_called_with(entry_point_fixture, indent=4, sort_keys=True)
 
+
+def test_getters(mocker):
+    entrypoint = Entrypoint.from_json(jsonstr=entry_point_fixture_json)
+
+    assert entrypoint.help() == entry_point_fixture['entrypoint']['help']

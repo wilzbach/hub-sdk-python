@@ -29,3 +29,8 @@ def test_serialization(mocker):
     assert service_command.as_json() is not None
     json.dumps.assert_called_with(env_fixture, indent=4, sort_keys=True)
 
+
+def test_getters(mocker):
+    env_variable = EnvironmentVariable.from_json(jsonstr=env_fixture_json)
+
+    assert env_variable.help() == env_fixture['environment_variable']['help']
