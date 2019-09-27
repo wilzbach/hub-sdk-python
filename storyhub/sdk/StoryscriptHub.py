@@ -91,7 +91,8 @@ class StoryscriptHub:
         :param alias: Takes precedence when specified over owner/name
         :param owner: The owner of the service
         :param name: The name of the service
-        :return: Returns a @ServiceData object instance.
+        :return: Returns a :py:class:~.sdk.service.ServiceData.ServiceData
+        object instance.
         """
 
         service = None
