@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import tempfile
 from time import sleep
-from uuid import UUID
 
 from storyhub.sdk.StoryscriptHub import StoryscriptHub
 from storyhub.sdk.GraphQL import GraphQL
@@ -44,23 +43,26 @@ class VerifiableService:
             'readme': readme
         }
 
-    def verify(self, service: Service):
-        assert service.name == self.name
-        assert service.alias == self.alias
-        assert service.username == self.owner_name
-        assert service.topics == self.topics
-        assert service.description == self.desc
-        assert service.certified == self.certified
-        assert service.public == self.public
-        assert service.service_uuid == UUID(self.uuid)
-        assert service.state == self.state
-        assert service.configuration == self.config
-        assert service.readme == self.readme
+    def verify(self, service: ServiceData):
+        assert service.name() == self.name
+        assert service.service().alias() == self.alias
+        assert service.service().owner().username() == self.owner_name
+        assert service.service().topics() == self.topics
+        assert service.service().description() == self.desc
+        assert service.service().certified() == self.certified
+        assert service.service().public() == self.public
+        assert service.uuid() == self.uuid
+        assert service.state() == self.state
+        assert service.configuration().actions()[0].name() == \
+            list(self.config['actions'].keys())[0]
+        assert service.readme() == self.readme
 
 
 def test_caching(mocker):
     config = {
-        'config_bucket': True
+        'actions': {
+            'foo': 'bar'
+        }
     }
 
     owner = 'default_username'
@@ -127,7 +129,7 @@ not_python_fixture = JsonFixtureHelper.load_fixture("not_python_fixture")
 
 
 def test_service_wrapper(mocker):
-    hub = StoryscriptHub(db_path=tempfile.mkdtemp(), service_wrapper=True)
+    hub = StoryscriptHub(db_path=tempfile.mkdtemp())
 
 
     mocker.patch.object(GraphQL, "get_all", return_value=[not_python_fixture])
@@ -148,7 +150,7 @@ def test_get_with_wrap_service(mocker):
 
     mocker.patch.object(ServiceData, 'from_dict')
 
-    assert hub.get("microservice/not_python", wrap_service=True) is not None
+    assert hub.get("microservice/not_python") is not None
 
     ServiceData.from_dict.assert_called_with(data={
         "service_data": not_python_fixture

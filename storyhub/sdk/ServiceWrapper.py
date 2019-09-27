@@ -103,6 +103,10 @@ class ServiceWrapper:
         return service_names
 
     def get(self, alias=None, owner=None, name=None):
+        if alias is not None and alias.count("/") == 1:
+            owner, name = alias.split("/")
+            alias = None
+
         service = None
 
         if alias and alias in self.services:
