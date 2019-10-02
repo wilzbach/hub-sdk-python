@@ -30,7 +30,7 @@ class EnvironmentVariable(ServiceObject):
             help_=environment_variable.get(
                 'help', 'No help available.'
             ),
-            type_=environment_variable["type"],
+            type_=environment_variable.get("type", "string"),
             pattern=environment_variable.get(
                 'pattern', None
             ),

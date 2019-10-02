@@ -1,3 +1,4 @@
+import copy
 import json
 
 from storyhub.sdk.service.EnvironmentVariable import EnvironmentVariable
@@ -34,3 +35,11 @@ def test_getters(mocker):
     env_variable = EnvironmentVariable.from_json(jsonstr=env_fixture_json)
 
     assert env_variable.help() == env_fixture['environment_variable']['help']
+
+
+def test_getters_no_type(mocker):
+    env_json = copy.deepcopy(env_fixture)
+    del env_json['environment_variable']['type']
+    jsonstr = json.dumps(env_json)
+    env_variable = EnvironmentVariable.from_json(jsonstr=jsonstr)
+    assert env_variable.type() == 'string'
