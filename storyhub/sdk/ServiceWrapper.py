@@ -84,32 +84,36 @@ class ServiceWrapper:
                 for service in services
                 if service in services_map]
 
-    def update_service(self, service):
+    def update_service(self, service, services_dict):
         """
         Puts a given service dict into services map.
 
         Params:
             service (Dict[str, Any]): map of service related data from hub.
+            services_dict (Dict[str, Dict[str, Any]]): map of service names
+                to service data.
         """
         slug = (service["service"]["owner"]["username"] +
                 '/' + service["service"]["name"])
-        self.services[slug] = service
+        services_dict[slug] = service
         if service["service"]["alias"] is not None:
             # alias is unique is enforced in DB constraints
-            self.services[service["service"]["alias"]] = service
+            services_dict[service["service"]["alias"]] = service
 
     def reload_services(self, services):
-        # reset services
-        self.services = {}
-
         if services is None:
             return
 
         if all(isinstance(service, str) for service in services):
             services = self.get_services(services)
         assert all(isinstance(service, dict) for service in services)
+
+        services_dict = {}
         for service in services:
-            self.update_service(service)
+            self.update_service(service, services_dict)
+
+        # reset services
+        self.services = services_dict
 
     def as_json(self):
         services = []

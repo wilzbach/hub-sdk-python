@@ -103,7 +103,7 @@ def test_serialization(mocker):
         "microservice/hashes"
     ])
 
-    hub.update_service(not_python_fixture)
+    hub.update_service(not_python_fixture, hub.services)
 
     temp_file = tempfile.mktemp(suffix=".json")
 
