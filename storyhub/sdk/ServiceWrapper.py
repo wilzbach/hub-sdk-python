@@ -79,11 +79,10 @@ class ServiceWrapper:
             List[Dict[str, Any]]: list of services found with the data in dict.
         """
         services_map = self.fetch_services()
-        services_found = []
-        for service in services:
-            if service in services_map:
-                services_found.append(services_map[service])
-        return services_found
+
+        return [services_map[service]
+                for service in services
+                if service in services_map]
 
     def update_service(self, service):
         """
