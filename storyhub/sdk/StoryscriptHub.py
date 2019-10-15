@@ -6,6 +6,8 @@ from threading import Lock
 from typing import Union
 from unittest.mock import MagicMock
 
+from appdirs import user_cache_dir
+
 from cachetools import TTLCache, cached
 
 from peewee import DoesNotExist
@@ -28,13 +30,8 @@ class StoryscriptHub:
     ttl_cache_for_service_names = TTLCache(maxsize=1, ttl=1 * 60)
 
     @staticmethod
-    def get_config_dir(app):
-        if sys.platform == 'win32':
-            p = os.getenv('APPDATA')
-        else:
-            p = os.getenv('XDG_DATA_HOME', os.path.expanduser('~/'))
-
-        return os.path.join(p, app)
+    def get_cache_dir():
+        return user_cache_dir('storyscript', 'hub-sdk')
 
     def __init__(self, db_path: str = None, auto_update: bool = True):
         """
@@ -46,7 +43,7 @@ class StoryscriptHub:
         """
 
         if db_path is None:
-            db_path = StoryscriptHub.get_config_dir('.storyscript')
+            db_path = StoryscriptHub.get_cache_dir()
 
         os.makedirs(db_path, exist_ok=True)
 
