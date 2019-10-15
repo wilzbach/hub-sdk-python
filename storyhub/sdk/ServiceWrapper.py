@@ -1,6 +1,8 @@
 import json
 from uuid import UUID
 
+from cachetools import TTLCache, cached
+
 from storyhub.sdk.GraphQL import GraphQL
 from storyhub.sdk.service.ServiceData import ServiceData
 
@@ -15,8 +17,11 @@ class UUIDEncoder(json.JSONEncoder):
 class ServiceWrapper:
     """
     The ServiceWrapper provides an improved way to access storyscript
-    hub services
+    hub services.
     """
+
+    ttl_cache_for_all_services = TTLCache(maxsize=1, ttl=1 * 60)
+
     def __init__(self, services=None):
         self.services = {}
         self.reload_services(services)
@@ -45,35 +50,70 @@ class ServiceWrapper:
             jsonstr = f.read()
             return cls.from_json(jsonstr=jsonstr)
 
+    @cached(cache=ttl_cache_for_all_services)
+    def fetch_services(self):
+        # At the moment we are fetching all services in this function.
+        # This is acceptable at the moment since entire hub data is small
+        # for the time being but we will add more specialized GraphQl request
+        # here later on.
+        raw_services = GraphQL.get_all()
+        services = {}
+        for service in raw_services:
+            slug = (service["service"]["owner"]["username"] +
+                    '/' + service["service"]["name"])
+            services[slug] = service
+            if service["service"]["alias"] is not None:
+                # alias is unique is enforced in DB constraints
+                services[service["service"]["alias"]] = service
+        return services
+
+    def get_services(self, services):
+        """
+        Given a list of service names, returns a list of services that
+        were found on the hub along with their data in a dict.
+
+        Params:
+            services (List[str]): list of service names to get data for.
+
+        Returns:
+            List[Dict[str, Any]]: list of services found with the data in dict.
+        """
+        services_map = self.fetch_services()
+
+        return [services_map[service]
+                for service in services
+                if service in services_map]
+
+    def update_service(self, service, services_dict):
+        """
+        Puts a given service dict into services map.
+
+        Params:
+            service (Dict[str, Any]): map of service related data from hub.
+            services_dict (Dict[str, Dict[str, Any]]): map of service names
+                to service data.
+        """
+        slug = (service["service"]["owner"]["username"] +
+                '/' + service["service"]["name"])
+        services_dict[slug] = service
+        if service["service"]["alias"] is not None:
+            # alias is unique is enforced in DB constraints
+            services_dict[service["service"]["alias"]] = service
+
     def reload_services(self, services):
+        if services is None:
+            return
+
+        if all(isinstance(service, str) for service in services):
+            services = self.get_services(services)
+        assert all(isinstance(service, dict) for service in services)
+
+        services_dict = {}
+        for service in services:
+            self.update_service(service, services_dict)
+
         # reset services
-        self.services = {}
-
-        if type(services) is list:
-            for service in services:
-                if type(service) is dict:
-                    service_data = service["service"]
-                    self.services[(service_data["owner"]["username"] + '/' +
-                                   service_data["name"])] = service
-                else:
-                    assert type(service) is str
-                    # this allows us to utilize dynamic loading
-                    for _service in GraphQL.get_all():
-                        service_service = _service["service"]
-                        service_owner = service_service["owner"]["username"]
-                        service_name = service_service["name"]
-                        service_alias = service_service["alias"]
-                        if service == service_owner + "/" + service_name or \
-                                service == service_alias:
-                            self.services[service_owner + "/" + service_name] \
-                                = _service
-
-        elif type(services) is dict:
-            for service in services:
-                _service = services[service]
-                service_owner = _service["service"]["owner"]["username"]
-                service_name = _service["service"]["name"]
-                self.services[service_owner + "/" + service_name] = _service
+        self.services = services_dict
 
     def as_json(self):
         services = []
@@ -92,14 +132,9 @@ class ServiceWrapper:
         service_names = []
 
         for service in self.services:
-            _service = self.services[service]["service"]
+            if not include_aliases and service.count("/") == 0:
+                continue
             service_names.append(service)
-            alias = _service["alias"]
-
-            if include_aliases and alias is not None \
-                    and alias not in service_names:
-                service_names.append(alias)
-
         return service_names
 
     def get(self, alias=None, owner=None, name=None):
@@ -109,22 +144,12 @@ class ServiceWrapper:
 
         service = None
 
-        if alias and alias in self.services:
-            service = self.services[alias]
-        elif f'{owner}/{name}' in self.services:
-            service = self.services[f'{owner}/{name}']
-        else:
-            for _service in self.services:
-                service_data = self.services[_service]["service"]
-                if owner is not None and name is not None and\
-                        service_data["owner"]["username"] == owner and \
-                        service_data["name"] == name:
-                    service = self.services[_service]
-                elif name is not None and service_data["name"] == name:
-                    service = self.services[_service]
-                elif alias is not None and (service_data["alias"] == alias or
-                                            service_data["name"] == alias):
-                    service = self.services[_service]
+        if alias is not None:
+            if alias in self.services:
+                service = self.services[alias]
+        elif owner is not None and name is not None:
+            if f'{owner}/{name}' in self.services:
+                service = self.services[f'{owner}/{name}']
 
         if service is None:
             return None
