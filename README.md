@@ -1,4 +1,5 @@
 [![codecov](https://codecov.io/gh/storyscript/hub-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/storyscript/hub-sdk-python)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg?style=for-the-badge)](https://github.com/storyscript/.github/blob/master/CODE_OF_CONDUCT.md)
 
 # hub-sdk-python
 A Python SDK to access the Storyscript Hub, which supports caching and more
@@ -22,7 +23,7 @@ The Storyscript Hub SDK provides the ability to safely access the entire hub ser
 ```python
 from storyhub.sdk.StoryscriptHub import StoryscriptHub
 
-# tell the hub sdk to utilize the service wrapper 
+# tell the hub sdk to utilize the service wrapper
 # making it easy to access objects safely
 hub = StoryscriptHub(service_wrapper=True)
 
