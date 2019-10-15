@@ -18,8 +18,9 @@ setup(
     packages=find_packages(exclude=('build.*', 'tests', 'tests.*')),
     install_requires=[
         'requests~=2.21',
-        'peewee==3.9.3',
-        'cachetools==3.1.0'
+        'peewee~=3.9',
+        'cachetools~=3.1',
+        'appdirs~=1.4',
     ],
     tests_require=[
         'pytest==4.3.1',
