@@ -17,6 +17,7 @@ List[A] replace item:A by:A -> List[A]
 List[A] slice start:int -> List[A]
 List[A] slice start:int end:int -> List[A]
 List[A] slice end:int -> List[A]
+List[A] join sep:string -> string
 
 Map[K,V] length -> int
 Map[K,V] keys -> List[K]
