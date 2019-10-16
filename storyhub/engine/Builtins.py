@@ -1,5 +1,6 @@
 # List of all builtins supported by the Storyscript engine
-# Any changes here MUST be propagated to https://docs.storyscript.io/storyscript/functions/#built-ins
+# Any changes here MUST be propagated to
+# https://docs.storyscript.io/storyscript/functions/#built-ins
 builtins = """
 List[A] length -> int
 List[A] append item:A -> List[A]
