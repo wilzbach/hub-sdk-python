@@ -1,4 +1,6 @@
-[![codecov](https://codecov.io/gh/storyscript/hub-sdk-python/branch/master/graph/badge.svg)](https://codecov.io/gh/storyscript/hub-sdk-python)
+[![PyPi](https://img.shields.io/pypi/v/story-hub.svg?maxAge=600&style=for-the-badge)](https://pypi.python.org/pypi/story-hub)
+[![CircleCI](https://img.shields.io/circleci/project/github/storyscript/hub-sdk-python/master.svg?style=for-the-badge)](https://circleci.com/gh/storyscript/hub-sdk-python)
+[![Codecov](https://img.shields.io/codecov/c/github/storyscript/hub-sdk-python.svg?style=for-the-badge)](https://codecov.io/github/storyscript/hub-sdk-python)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg?style=for-the-badge)](https://github.com/storyscript/.github/blob/master/CODE_OF_CONDUCT.md)
 
 # hub-sdk-python
