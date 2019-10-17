@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 import io
 import os
+import subprocess
 import sys
 from shutil import rmtree
 
@@ -46,12 +47,13 @@ class UploadCommand(Command):
             pass
 
         self.status('Building Source and Wheel (universal) distribution…')
-        os.system(
-            '{0} setup.py sdist bdist_wheel --universal'.format(sys.executable)
-        )
+        subprocess.run(
+            [sys.executable, 'setup.py', 'sdist', 'bdist_wheel',
+             '--universal'],
+            check=True)
 
         self.status('Uploading the package to PyPI via Twine…')
-        os.system('twine upload dist/*')
+        subprocess.run(['twine', 'upload', 'dist/*'], check=True, shell=True)
 
         sys.exit()
 
