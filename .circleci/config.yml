@@ -59,3 +59,33 @@ jobs:
       - store_artifacts:
           path: test-reports
           destination: test-reports
+
+  release_pypi:
+    docker:
+      - image: circleci/python:3.6.1
+    steps:
+      - checkout
+      - run:
+          name: upload to PyPI
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install twine
+            python setup.py upload
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /.*/
+      - release_pypi:
+          requires:
+            - build
+          filters:
+            tags:
+              only: /^[0-9]+\.[0-9]+\.[0-9]+$/
+            branches:
+              ignore: /.*/
