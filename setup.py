@@ -8,7 +8,6 @@ from shutil import rmtree
 
 from setuptools import Command, find_packages, setup
 
-VERSION = '0.1.9'
 DESCRIPTION = 'A Python SDK to access the Storyscript Hub, ' \
               'which supports caching and more'
 
@@ -60,7 +59,6 @@ class UploadCommand(Command):
 
 setup(
     name='story-hub',
-    version=VERSION,
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type='text/markdown',
