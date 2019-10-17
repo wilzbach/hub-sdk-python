@@ -78,6 +78,10 @@ setup(
         'pytest-mock==1.10.2',
         'pytest-cov==2.6.1'
     ],
-    setup_requires=['pytest-runner==4.4'],
+    use_scm_version=True,
+    setup_requires=[
+        'pytest-runner==4.4',
+        'setuptools_scm~=3.3',
+    ],
     cmdclass={'upload': UploadCommand},
 )
