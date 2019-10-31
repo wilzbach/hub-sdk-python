@@ -1,19 +1,18 @@
-from storyhub.sdk.service.OutputAction import OutputAction
-from storyhub.sdk.service.OutputProperty import OutputProperty
 from storyhub.sdk.service.ServiceObject import ServiceObject
+from storyhub.sdk.service.output.OutputAction import OutputAction
+from storyhub.sdk.service.output.OutputUtils import OutputUtils
 
 
-class Output(ServiceObject):
+class ServiceOutput(ServiceObject):
     """
     An individual service event output with its arguments.
     """
 
-    def __init__(self, type_, actions, properties, content_type, data):
+    def __init__(self, type_, actions, content_type, data):
         super().__init__(data=data)
 
         self._type = type_
         self._actions = actions
-        self._properties = properties
         self._content_type = content_type
 
     @classmethod
@@ -28,22 +27,15 @@ class Output(ServiceObject):
                     "output_action": action
                 })
 
-        properties = {}
-        if 'properties' in output:
-            for property_name, output_property in output['properties'].items():
-                properties[property_name] = OutputProperty.from_dict(data={
-                    "name": property_name,
-                    "output_property": output_property
-                })
+        ty = OutputUtils.parse_type(output)
 
         return cls(
-            type_=output["type"],
+            type_=ty,
             actions=actions,
-            properties=properties,
             content_type=output.get(
                 "contentType", None
             ),
-            data=data
+            data=data,
         )
 
     def type(self):
@@ -57,9 +49,3 @@ class Output(ServiceObject):
 
     def action(self, name):
         return self._actions.get(name, None)
-
-    def properties(self):
-        return list(self._properties.values())
-
-    def property(self, name):
-        return self._properties.get(name, None)

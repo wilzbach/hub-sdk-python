@@ -4,7 +4,8 @@ from storyhub.sdk.service.Action import Action
 from storyhub.sdk.service.Argument import Argument
 from storyhub.sdk.service.Event import Event
 from storyhub.sdk.service.HttpOptions import HttpOptions
-from storyhub.sdk.service.Output import Output
+from storyhub.sdk.service.output import OutputObject
+from storyhub.sdk.service.ServiceOutput import ServiceOutput
 from tests.storyhub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
 action_fixture = JsonFixtureHelper.load_fixture("action_fixture")
@@ -19,7 +20,7 @@ def test_deserialization(mocker):
     mocker.patch.object(Argument, 'from_dict')
     mocker.patch.object(Event, 'from_dict')
     mocker.patch.object(HttpOptions, 'from_dict')
-    mocker.patch.object(Output, 'from_dict')
+    mocker.patch.object(ServiceOutput, 'from_dict')
 
     assert Action.from_json(jsonstr=action_fixture_json) is not None
 
@@ -39,7 +40,7 @@ def test_deserialization(mocker):
         "event": action_fixture["action"]["events"]["listen"]
     })
 
-    Output.from_dict.assert_any_call(data={
+    ServiceOutput.from_dict.assert_any_call(data={
         "output": action_fixture["action"]["output"]
     })
 
@@ -62,7 +63,7 @@ def test_getters(mocker):
     action = Action.from_json(jsonstr=action_fixture_json)
 
     action_output = action.output()
-    assert action_output.type() == action_fixture['action']['output']['type']
+    assert isinstance(action_output.type(), OutputObject)
 
     action_args = action.args()
     assert len(action_args) == len(action_fixture['action']['arguments'])

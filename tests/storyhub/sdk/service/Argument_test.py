@@ -1,6 +1,7 @@
 import json
 
 from storyhub.sdk.service.Argument import Argument
+from storyhub.sdk.service.output import OutputString
 from tests.storyhub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
 argument_fixture = JsonFixtureHelper.load_fixture("argument_fixture")
@@ -41,7 +42,7 @@ def test_getters(mocker):
     assert argument_help == 'No help available.'
 
     argument_type = argument.type()
-    assert argument_type == argument_fixture['argument']['type']
+    assert isinstance(argument_type, OutputString)
 
     argument_required = argument.required()
     assert argument_required == argument_fixture['argument']['required']

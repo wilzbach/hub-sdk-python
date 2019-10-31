@@ -1,7 +1,7 @@
 from storyhub.sdk.service.Argument import Argument
 from storyhub.sdk.service.HttpOptions import HttpOptions
-from storyhub.sdk.service.Output import Output
 from storyhub.sdk.service.ServiceObject import ServiceObject
+from storyhub.sdk.service.ServiceOutput import ServiceOutput
 
 
 class Event(ServiceObject):
@@ -33,7 +33,7 @@ class Event(ServiceObject):
 
         output = None
         if 'output' in event:
-            output = Output.from_dict(data={
+            output = ServiceOutput.from_dict(data={
                 "output": event["output"]
             })
 

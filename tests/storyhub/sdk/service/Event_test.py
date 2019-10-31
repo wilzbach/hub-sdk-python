@@ -4,7 +4,7 @@ from storyhub.sdk.service.Action import Action
 from storyhub.sdk.service.Argument import Argument
 from storyhub.sdk.service.Event import Event
 from storyhub.sdk.service.HttpOptions import HttpOptions
-from storyhub.sdk.service.Output import Output
+from storyhub.sdk.service.ServiceOutput import ServiceOutput
 from tests.storyhub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
 event_fixture = JsonFixtureHelper.load_fixture("event_fixture")
@@ -17,7 +17,7 @@ def test_deserialization(mocker):
 
     mocker.patch.object(Argument, 'from_dict')
     mocker.patch.object(Action, 'from_dict')
-    mocker.patch.object(Output, 'from_dict')
+    mocker.patch.object(ServiceOutput, 'from_dict')
     mocker.patch.object(HttpOptions, 'from_dict')
 
     assert Event.from_json(jsonstr=event_fixture_json) is not None
@@ -29,7 +29,7 @@ def test_deserialization(mocker):
         "argument": event_fixture["event"]["arguments"]["path"]
     })
 
-    Output.from_dict.assert_any_call(data={
+    ServiceOutput.from_dict.assert_any_call(data={
         "output": event_fixture["event"]["output"]
     })
 
