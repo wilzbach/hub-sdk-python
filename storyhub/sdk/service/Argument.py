@@ -1,4 +1,5 @@
 from storyhub.sdk.service.ServiceObject import ServiceObject
+from storyhub.sdk.service.output.OutputUtils import OutputUtils
 
 
 class Argument(ServiceObject):
@@ -24,7 +25,7 @@ class Argument(ServiceObject):
             help_=argument.get(
                 'help', 'No help available.'
             ),
-            type_=argument['type'],
+            type_=OutputUtils.parse_type(argument),
             required=argument.get('required', False),
             data=data
         )

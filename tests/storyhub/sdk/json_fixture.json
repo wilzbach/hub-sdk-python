@@ -1417,11 +1417,80 @@
       }
     }
   },
-  "output_property_fixture" : {
+  "output_object_fixture" : {
     "name": "query_params",
-    "output_property": {
-      "help": "The parsed query parameters of the HTTP request",
-      "type": "map"
+    "type": "object",
+    "properties": {
+      "uri": {
+        "help": "The URI of the incoming HTTP request",
+        "type": "string"
+      },
+      "body": {
+        "help": "The JSON body of the incoming HTTP request",
+        "type": "map"
+      },
+      "path": {
+        "help": "The path portion of the URI of the incoming HTTP request",
+        "type": "string"
+      },
+      "re": {
+        "help": "re help",
+        "type": "regex"
+      },
+      "_int": {
+        "help": "int help",
+        "type": "int"
+      },
+      "_float": {
+        "help": "float help",
+        "type": "float"
+      },
+      "_number": {
+        "help": "number help",
+        "type": "number"
+      },
+      "_any": {
+        "help": "any help",
+        "type": "any"
+      },
+      "_list_any": {
+        "help": "list help",
+        "type": "list"
+      },
+      "_list_str": {
+        "help": "list help",
+        "type": "list",
+        "list": {
+          "elements": {
+              "type": "string"
+          }
+        }
+      },
+      "_boolean": {
+        "help": "boolean help",
+        "type": "boolean"
+      },
+      "_none": {
+        "help": "none help",
+        "type": "none"
+      },
+      "_enum": {
+        "help": "none help",
+        "type": "enum",
+        "enum": ["a", "b"]
+      },
+      "query_params": {
+        "map": {
+          "keys": {
+            "type": "string"
+          },
+          "values": {
+            "type": "string"
+          }
+        },
+        "help": "DEPRECATED. Use 'queryParams'.\n",
+        "type": "map"
+      }
     }
   },
   "service_info_fixture": {

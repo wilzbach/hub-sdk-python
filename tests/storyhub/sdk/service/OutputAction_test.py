@@ -2,7 +2,7 @@ import json
 
 from storyhub.sdk.service.Argument import Argument
 from storyhub.sdk.service.HttpOptions import HttpOptions
-from storyhub.sdk.service.OutputAction import OutputAction
+from storyhub.sdk.service.output.OutputAction import OutputAction
 from tests.storyhub.sdk.JsonFixtureHelper import JsonFixtureHelper
 
 output_action_fixture = JsonFixtureHelper.load_fixture("output_action_fixture")
