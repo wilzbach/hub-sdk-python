@@ -40,6 +40,18 @@ jobs:
             - ./venv
           key: v1-dependencies-{{ checksum "setup.py" }}
 
+      - run:
+          name: run stylecheck
+          command: |
+              . venv/bin/activate
+              tox -e stylecheck
+
+      - run:
+          name: run pep8 checks
+          command: |
+              . venv/bin/activate
+              tox -e pep8
+
       # run tests!
       # this example uses Django's built-in test-runner
       # other common Python testing frameworks include pytest and nose
@@ -49,7 +61,7 @@ jobs:
           name: run tests
           command: |
             . venv/bin/activate
-            tox .
+            tox -e py36
 
       - run:
           name: collect coverage

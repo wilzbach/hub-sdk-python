@@ -83,5 +83,14 @@ setup(
         'pytest-runner==4.4',
         'setuptools_scm~=3.3',
     ],
+    extras_require={
+        "stylecheck": ["black==19.10b0"],
+        "pytest": [
+            "pytest==3.6.3",
+            "pytest-cov==2.5.1",
+            "pytest-mock==1.10.0",
+            "pytest-parallel==0.0.9",
+        ],
+    },
     cmdclass={'upload': UploadCommand},
 )
