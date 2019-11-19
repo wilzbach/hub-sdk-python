@@ -1479,6 +1479,9 @@
         "type": "enum",
         "enum": ["a", "b"]
       },
+      "_object_no_props": {
+        "type": "object"
+      },
       "query_params": {
         "map": {
           "keys": {

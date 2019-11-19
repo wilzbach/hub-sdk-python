@@ -56,7 +56,7 @@ def test_getters(mocker):
     out_props = output_object_fixture['properties']
 
     props = property.properties()
-    assert len(props) == 14
+    assert len(props) == 15
 
     assert isinstance(props['uri'], OutputString)
     props['uri'].help() == out_props['uri']['help']
@@ -107,3 +107,6 @@ def test_getters(mocker):
     assert isinstance(props['_enum'], OutputEnum)
     props['_enum'].help() == out_props['_enum']['help']
     props['_enum'].enum() == out_props['_enum']['enum']
+
+    assert isinstance(props['_object_no_props'], OutputObject)
+    assert props['_object_no_props'].properties() == {}
