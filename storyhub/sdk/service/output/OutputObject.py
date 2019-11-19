@@ -15,9 +15,13 @@ class OutputObject(OutputBase):
     @classmethod
     def from_dict(cls, data):
         kwargs = OutputBase.parse_dict(data)
-        kwargs['properties'] = {
-            k: OutputUtils.parse_type(v) for k, v in data['properties'].items()
-        }
+        if 'properties' in data:
+            kwargs['properties'] = {
+                k: OutputUtils.parse_type(v)
+                for k, v in data['properties'].items()
+            }
+        else:
+            kwargs['properties'] = {}
 
         return cls(**kwargs)
 
