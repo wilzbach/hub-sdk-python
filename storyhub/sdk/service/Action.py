@@ -33,50 +33,42 @@ class Action(ServiceObject):
                 events={},
                 http_options=None,
                 output=None,
-                data=data
+                data=data,
             )
 
         args = {}
-        if 'arguments' in action:
-            for arg_name, arg in action['arguments'].items():
-                args[arg_name] = Argument.from_dict(data={
-                    "name": arg_name,
-                    "argument": arg
-                })
+        if "arguments" in action:
+            for arg_name, arg in action["arguments"].items():
+                args[arg_name] = Argument.from_dict(
+                    data={"name": arg_name, "argument": arg}
+                )
 
         events = {}
-        if 'events' in action:
-            for event_name, event in action['events'].items():
-                events[event_name] = Event.from_dict(data={
-                    "name": event_name,
-                    "event": event
-                })
+        if "events" in action:
+            for event_name, event in action["events"].items():
+                events[event_name] = Event.from_dict(
+                    data={"name": event_name, "event": event}
+                )
 
-        http_options = action.get(
-            'http', None
-        )
+        http_options = action.get("http", None)
 
         if http_options is not None:
-            http_options = HttpOptions.from_dict(data={
-                "http_options": http_options
-            })
+            http_options = HttpOptions.from_dict(
+                data={"http_options": http_options}
+            )
 
         output = None
-        if 'output' in action:
-            output = ServiceOutput.from_dict(data={
-                "output": action["output"]
-            })
+        if "output" in action:
+            output = ServiceOutput.from_dict(data={"output": action["output"]})
 
         return cls(
             name=name,
-            help_=action.get(
-                'help', 'No help available.'
-            ),
+            help_=action.get("help", "No help available."),
             args=args,
             events=events,
             http_options=http_options,
             output=output,
-            data=data
+            data=data,
         )
 
     def name(self):

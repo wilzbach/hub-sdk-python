@@ -15,8 +15,8 @@ class OutputEnum(OutputBase):
     def from_dict(cls, data):
         kwargs = OutputBase.parse_dict(data)
 
-        if 'enum' in data:
-            kwargs['enum'] = data['enum']
+        if "enum" in data:
+            kwargs["enum"] = data["enum"]
 
         return cls(**kwargs)
 

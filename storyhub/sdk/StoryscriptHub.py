@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-import sys
 from threading import Lock
 from typing import Union
 from unittest.mock import MagicMock
@@ -31,7 +30,7 @@ class StoryscriptHub:
 
     @staticmethod
     def get_cache_dir():
-        return user_cache_dir('storyscript', 'hub-sdk')
+        return user_cache_dir("storyscript", "hub-sdk")
 
     def __init__(self, db_path: str = None, auto_update: bool = True):
         """
@@ -58,7 +57,8 @@ class StoryscriptHub:
 
         if auto_update:
             self.update_thread = AutoUpdateThread(
-                update_function=self.update_cache)
+                update_function=self.update_cache
+            )
 
     @cached(cache=ttl_cache_for_service_names)
     def get_all_service_names(self) -> [str]:
@@ -70,18 +70,20 @@ class StoryscriptHub:
         """
         services = []
         with Database(self.db_path):
-            for s in Service.select(Service.name, Service.alias,
-                                    Service.username):
+            for s in Service.select(
+                Service.name, Service.alias, Service.username
+            ):
                 if s.alias:
                     services.append(s.alias)
 
-                services.append(f'{s.username}/{s.name}')
+                services.append(f"{s.username}/{s.name}")
 
         return services
 
     @cached(cache=ttl_cache_for_services)
-    def get(self, alias=None, owner=None,
-            name=None) -> Union[Service, ServiceData]:
+    def get(
+        self, alias=None, owner=None, name=None
+    ) -> Union[Service, ServiceData]:
         """
         Get a service from the database.
 
@@ -94,8 +96,9 @@ class StoryscriptHub:
 
         service = None
 
-        service = self._service_wrapper.get(alias=alias, owner=owner,
-                                            name=name)
+        service = self._service_wrapper.get(
+            alias=alias, owner=owner, name=name
+        )
         if service is not None:
             return service
 
@@ -118,9 +121,9 @@ class StoryscriptHub:
             assert isinstance(service, Service)
             # we can safely convert this object since it was probably loaded
             # from the cache
-            return ServiceData.from_dict(data={
-                "service_data": json.loads(service.raw_data)
-            })
+            return ServiceData.from_dict(
+                data={"service_data": json.loads(service.raw_data)}
+            )
 
         return service
 
@@ -135,7 +138,8 @@ class StoryscriptHub:
                     service = Service.select().where(Service.alias == alias)
                 else:
                     service = Service.select().where(
-                        (Service.username == owner) & (Service.name == name))
+                        (Service.username == owner) & (Service.name == name)
+                    )
 
                 return service.get()
         except DoesNotExist:
@@ -149,22 +153,23 @@ class StoryscriptHub:
             self._service_wrapper.reload_services(services)
 
         with Database(self.db_path) as db:
-            with db.atomic(lock_type='IMMEDIATE'):
+            with db.atomic(lock_type="IMMEDIATE"):
                 Service.delete().execute()
                 for service in services:
                     Service.create(
-                        service_uuid=service['serviceUuid'],
-                        name=service['service']['name'],
-                        alias=service['service']['alias'],
-                        username=service['service']['owner']['username'],
-                        description=service['service']['description'],
-                        certified=service['service']['isCertified'],
-                        public=service['service']['public'],
-                        topics=json.dumps(service['service']['topics']),
-                        state=service['state'],
-                        configuration=json.dumps(service['configuration']),
-                        readme=service['readme'],
-                        raw_data=json.dumps(service))
+                        service_uuid=service["serviceUuid"],
+                        name=service["service"]["name"],
+                        alias=service["service"]["alias"],
+                        username=service["service"]["owner"]["username"],
+                        description=service["service"]["description"],
+                        certified=service["service"]["isCertified"],
+                        public=service["service"]["public"],
+                        topics=json.dumps(service["service"]["topics"]),
+                        state=service["state"],
+                        configuration=json.dumps(service["configuration"]),
+                        readme=service["readme"],
+                        raw_data=json.dumps(service),
+                    )
 
         with self.update_lock:
             self.ttl_cache_for_service_names.clear()

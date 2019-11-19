@@ -2,7 +2,6 @@ from storyhub.sdk.service.ServiceObject import ServiceObject
 
 
 class License(ServiceObject):
-
     def __init__(self, url, name, data):
         super().__init__(data)
 
@@ -14,13 +13,9 @@ class License(ServiceObject):
         license_ = data["license"]
 
         return cls(
-            url=license_.get(
-                'url', None
-            ),
-            name=license_.get(
-                'name', None
-            ),
-            data=data
+            url=license_.get("url", None),
+            name=license_.get("name", None),
+            data=data,
         )
 
     def url(self):

@@ -6,6 +6,7 @@ class Contact(ServiceObject):
     This represents contact info contained within
     :py:class:~.sdk.service.ServiceData.ServiceInfo
     """
+
     def __init__(self, url, name, email, data):
         super().__init__(data)
 
@@ -18,16 +19,10 @@ class Contact(ServiceObject):
         contact = data["contact"]
 
         return cls(
-            url=contact.get(
-                'url', None
-            ),
-            name=contact.get(
-                'url', None
-            ),
-            email=contact.get(
-                'email', None
-            ),
-            data=data
+            url=contact.get("url", None),
+            name=contact.get("url", None),
+            email=contact.get("email", None),
+            data=data,
         )
 
     def url(self):

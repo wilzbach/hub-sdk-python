@@ -4,7 +4,6 @@ from storyhub.sdk.service.ServiceObject import ServiceObject
 
 
 class ServiceInfo(ServiceObject):
-
     def __init__(self, title, license_, version, description, contact, data):
         super().__init__(data)
 
@@ -20,31 +19,25 @@ class ServiceInfo(ServiceObject):
 
         license_ = None
 
-        if 'license' in service_info:
-            license_ = License.from_dict(data={
-                "license": service_info["license"]
-            })
+        if "license" in service_info:
+            license_ = License.from_dict(
+                data={"license": service_info["license"]}
+            )
 
         contact = None
 
-        if 'contact' in service_info:
-            contact = Contact.from_dict(data={
-                "contact": service_info["contact"]
-            })
+        if "contact" in service_info:
+            contact = Contact.from_dict(
+                data={"contact": service_info["contact"]}
+            )
 
         return cls(
-            title=service_info.get(
-                "title", None
-            ),
+            title=service_info.get("title", None),
             license_=license_,
-            version=service_info.get(
-                "version", None
-            ),
-            description=service_info.get(
-                "description", None
-            ),
+            version=service_info.get("version", None),
+            description=service_info.get("description", None),
             contact=contact,
-            data=data
+            data=data,
         )
 
     def title(self):

@@ -13,16 +13,16 @@ from .OutputString import OutputString
 
 
 __all__ = [
-    'OutputAny',
-    'OutputBase',
-    'OutputBoolean',
-    'OutputEnum',
-    'OutputFloat',
-    'OutputInt',
-    'OutputList',
-    'OutputMap',
-    'OutputNone',
-    'OutputRegex',
-    'OutputObject',
-    'OutputString',
+    "OutputAny",
+    "OutputBase",
+    "OutputBoolean",
+    "OutputEnum",
+    "OutputFloat",
+    "OutputInt",
+    "OutputList",
+    "OutputMap",
+    "OutputNone",
+    "OutputRegex",
+    "OutputObject",
+    "OutputString",
 ]

@@ -20,21 +20,18 @@ class ServiceOutput(ServiceObject):
         output = data["output"]
 
         actions = {}
-        if 'actions' in output:
-            for action_name, action in output['actions'].items():
-                actions[action_name] = OutputAction.from_dict(data={
-                    "name": action_name,
-                    "output_action": action
-                })
+        if "actions" in output:
+            for action_name, action in output["actions"].items():
+                actions[action_name] = OutputAction.from_dict(
+                    data={"name": action_name, "output_action": action}
+                )
 
         ty = OutputUtils.parse_type(output)
 
         return cls(
             type_=ty,
             actions=actions,
-            content_type=output.get(
-                "contentType", None
-            ),
+            content_type=output.get("contentType", None),
             data=data,
         )
 

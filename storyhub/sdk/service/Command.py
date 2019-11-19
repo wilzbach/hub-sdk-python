@@ -19,22 +19,14 @@ class Command(ServiceObject):
         name = data["name"]
         command = data["command"]
         args = {}
-        if 'arguments' in command:
-            for arg_name, arg in command['arguments'].items():
-                args[arg_name] = Argument.from_dict(data={
-                    "name": arg_name,
-                    "argument": arg
-                })
+        if "arguments" in command:
+            for arg_name, arg in command["arguments"].items():
+                args[arg_name] = Argument.from_dict(
+                    data={"name": arg_name, "argument": arg}
+                )
 
-        help_ = command.get(
-            'help', 'No help available.'
-        )
-        return cls(
-            name=name,
-            help_=help_,
-            args=args,
-            data=data
-        )
+        help_ = command.get("help", "No help available.")
+        return cls(name=name, help_=help_, args=args, data=data)
 
     def name(self):
         return self._name

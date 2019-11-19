@@ -9,7 +9,6 @@ class LifecycleOptionType(Enum):
 
 
 class LifecycleOption(ServiceObject):
-
     def __init__(self, type_: LifecycleOptionType, command, timeout, data):
         super().__init__(data)
 
@@ -23,13 +22,9 @@ class LifecycleOption(ServiceObject):
 
         return cls(
             type_=data["type"],
-            command=lifecycle_option.get(
-                'command', []
-            ),
-            timeout=lifecycle_option.get(
-                'timeout', None
-            ),
-            data=data
+            command=lifecycle_option.get("command", []),
+            timeout=lifecycle_option.get("timeout", None),
+            data=data,
         )
 
     def type(self):

@@ -10,7 +10,7 @@ volume_fixture_json = json.dumps(volume_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=volume_fixture)
+    mocker.patch.object(json, "loads", return_value=volume_fixture)
 
     assert Volume.from_json(jsonstr=volume_fixture_json) is not None
 
@@ -19,7 +19,7 @@ def test_deserialization(mocker):
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=volume_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=volume_fixture_json)
 
     service_entry_point = Volume.from_dict(data=volume_fixture)
 
@@ -28,4 +28,3 @@ def test_serialization(mocker):
 
     assert service_entry_point.as_json() is not None
     json.dumps.assert_called_with(volume_fixture, indent=4, sort_keys=True)
-

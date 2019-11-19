@@ -18,15 +18,15 @@ class OutputMap(OutputBase):
     def from_dict(cls, data):
         kwargs = OutputBase.parse_dict(data)
 
-        if 'map' in data and 'keys' in data['map']:
-            kwargs['keys'] = OutputUtils.parse_type(data['map']['keys'])
+        if "map" in data and "keys" in data["map"]:
+            kwargs["keys"] = OutputUtils.parse_type(data["map"]["keys"])
         else:
-            kwargs['keys'] = OutputAny.create()
+            kwargs["keys"] = OutputAny.create()
 
-        if 'map' in data and 'values' in data['map']:
-            kwargs['values'] = OutputUtils.parse_type(data['map']['values'])
+        if "map" in data and "values" in data["map"]:
+            kwargs["values"] = OutputUtils.parse_type(data["map"]["values"])
         else:
-            kwargs['values'] = OutputAny.create()
+            kwargs["values"] = OutputAny.create()
 
         return cls(**kwargs)
 

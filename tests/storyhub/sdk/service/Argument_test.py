@@ -11,7 +11,7 @@ argument_fixture_json = json.dumps(argument_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=argument_fixture)
+    mocker.patch.object(json, "loads", return_value=argument_fixture)
 
     assert Argument.from_json(jsonstr=argument_fixture_json) is not None
 
@@ -20,7 +20,7 @@ def test_deserialization(mocker):
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=argument_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=argument_fixture_json)
 
     service_command = Argument.from_dict(data=argument_fixture)
 
@@ -36,13 +36,13 @@ def test_getters(mocker):
     argument = Argument.from_dict(data=argument_fixture)
 
     argument_name = argument.name()
-    assert argument_name == argument_fixture['name']
+    assert argument_name == argument_fixture["name"]
 
     argument_help = argument.help()
-    assert argument_help == 'No help available.'
+    assert argument_help == "No help available."
 
     argument_type = argument.type()
     assert isinstance(argument_type, OutputString)
 
     argument_required = argument.required()
-    assert argument_required == argument_fixture['argument']['required']
+    assert argument_required == argument_fixture["argument"]["required"]

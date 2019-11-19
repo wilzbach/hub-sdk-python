@@ -2,9 +2,17 @@ from storyhub.sdk.service.ServiceObject import ServiceObject
 
 
 class HttpOptions(ServiceObject):
-
-    def __init__(self, path, port, method, content_type, use_event_conn,
-                 subscribe, unsubscribe, data):
+    def __init__(
+        self,
+        path,
+        port,
+        method,
+        content_type,
+        use_event_conn,
+        subscribe,
+        unsubscribe,
+        data,
+    ):
         super().__init__(data)
 
         self._path = path
@@ -20,36 +28,26 @@ class HttpOptions(ServiceObject):
         http_options = data["http_options"]
 
         subscribe = None
-        if 'subscribe' in http_options:
-            subscribe = HttpOptions.from_dict(data={
-                'http_options': http_options['subscribe']
-            })
+        if "subscribe" in http_options:
+            subscribe = HttpOptions.from_dict(
+                data={"http_options": http_options["subscribe"]}
+            )
 
         unsubscribe = None
-        if 'unsubscribe' in http_options:
-            unsubscribe = HttpOptions.from_dict(data={
-                'http_options': http_options['unsubscribe']
-            })
+        if "unsubscribe" in http_options:
+            unsubscribe = HttpOptions.from_dict(
+                data={"http_options": http_options["unsubscribe"]}
+            )
 
         return cls(
-            path=http_options.get(
-                'path', None
-            ),
-            port=http_options.get(
-                'port', None
-            ),
-            method=http_options.get(
-                'method', None
-            ),
-            content_type=http_options.get(
-                "contentType", None
-            ),
-            use_event_conn=http_options.get(
-                "use_event_conn", None
-            ),
+            path=http_options.get("path", None),
+            port=http_options.get("port", None),
+            method=http_options.get("method", None),
+            content_type=http_options.get("contentType", None),
+            use_event_conn=http_options.get("use_event_conn", None),
             subscribe=subscribe,
             unsubscribe=unsubscribe,
-            data=data
+            data=data,
         )
 
     def path(self):

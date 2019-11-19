@@ -8,8 +8,9 @@ class ServiceData(ServiceObject):
     This represents an entire service stored within the Storyscript Hub.
     """
 
-    def __init__(self, name, uuid, service, state, readme,
-                 configuration, data):
+    def __init__(
+        self, name, uuid, service, state, readme, configuration, data
+    ):
         super().__init__(data)
 
         self._name = name
@@ -24,19 +25,17 @@ class ServiceData(ServiceObject):
         service_data = data["service_data"]
 
         return cls(
-            name=service_data["service"]['name'],
-            service=Service.from_dict(data={
-                "service": service_data["service"]
-            }),
+            name=service_data["service"]["name"],
+            service=Service.from_dict(
+                data={"service": service_data["service"]}
+            ),
             state=service_data["state"],
             uuid=service_data["serviceUuid"],
-            readme=service_data.get(
-                'readme', 'No readme found.'
+            readme=service_data.get("readme", "No readme found."),
+            configuration=Configuration.from_dict(
+                data={"configuration": service_data["configuration"]}
             ),
-            configuration=Configuration.from_dict(data={
-                "configuration": service_data["configuration"]
-            }),
-            data=data
+            data=data,
         )
 
     def name(self):

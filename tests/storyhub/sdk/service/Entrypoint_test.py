@@ -11,23 +11,25 @@ entry_point_fixture_json = json.dumps(entry_point_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=entry_point_fixture)
+    mocker.patch.object(json, "loads", return_value=entry_point_fixture)
 
-    mocker.patch.object(Argument, 'from_dict')
+    mocker.patch.object(Argument, "from_dict")
 
     assert Entrypoint.from_json(jsonstr=entry_point_fixture_json) is not None
 
     json.loads.assert_called_with(entry_point_fixture_json)
 
-    Argument.from_dict.assert_called_with(data={
-        "name": "path",
-        "argument": entry_point_fixture["entrypoint"]["arguments"]["path"]
-    })
+    Argument.from_dict.assert_called_with(
+        data={
+            "name": "path",
+            "argument": entry_point_fixture["entrypoint"]["arguments"]["path"],
+        }
+    )
 
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=entry_point_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=entry_point_fixture_json)
 
     service_entry_point = Entrypoint.from_dict(data=entry_point_fixture)
 
@@ -36,10 +38,12 @@ def test_serialization(mocker):
     json.dumps.assert_called_with(entry_point_fixture, sort_keys=True)
 
     assert service_entry_point.as_json() is not None
-    json.dumps.assert_called_with(entry_point_fixture, indent=4, sort_keys=True)
+    json.dumps.assert_called_with(
+        entry_point_fixture, indent=4, sort_keys=True
+    )
 
 
 def test_getters(mocker):
     entrypoint = Entrypoint.from_json(jsonstr=entry_point_fixture_json)
 
-    assert entrypoint.help() == entry_point_fixture['entrypoint']['help']
+    assert entrypoint.help() == entry_point_fixture["entrypoint"]["help"]

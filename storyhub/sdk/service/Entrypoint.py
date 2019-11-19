@@ -6,6 +6,7 @@ class Entrypoint(ServiceObject):
     """
     This represents an entrypoint configuration for a service.
     """
+
     def __init__(self, help_, args, data):
         super().__init__(data)
 
@@ -17,19 +18,16 @@ class Entrypoint(ServiceObject):
         entrypoint = data["entrypoint"]
 
         args = {}
-        if 'arguments' in entrypoint:
-            for arg_name, arg in entrypoint['arguments'].items():
-                args[arg_name] = Argument.from_dict(data={
-                    "name": arg_name,
-                    "argument": arg
-                })
+        if "arguments" in entrypoint:
+            for arg_name, arg in entrypoint["arguments"].items():
+                args[arg_name] = Argument.from_dict(
+                    data={"name": arg_name, "argument": arg}
+                )
 
         return cls(
-            help_=entrypoint.get(
-                'help', 'No help available.'
-            ),
+            help_=entrypoint.get("help", "No help available."),
             args=args,
-            data=data
+            data=data,
         )
 
     def help(self):

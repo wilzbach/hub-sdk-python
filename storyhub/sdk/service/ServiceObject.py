@@ -16,9 +16,7 @@ class ServiceObject:
 
     @classmethod
     def from_dict(cls, data):
-        return cls(
-            data=data
-        )
+        return cls(data=data)
 
     @classmethod
     def from_json(cls, jsonstr):

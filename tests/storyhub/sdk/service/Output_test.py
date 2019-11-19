@@ -11,10 +11,10 @@ output_fixture_json = json.dumps(output_fixture)
 
 
 def test_deserialization(mocker):
-    mocker.patch.object(json, 'loads', return_value=output_fixture)
+    mocker.patch.object(json, "loads", return_value=output_fixture)
 
-    mocker.patch.object(OutputAction, 'from_dict')
-    mocker.patch.object(OutputUtils, 'parse_type')
+    mocker.patch.object(OutputAction, "from_dict")
+    mocker.patch.object(OutputUtils, "parse_type")
 
     output = ServiceOutput.from_json(jsonstr=output_fixture_json)
 
@@ -24,10 +24,12 @@ def test_deserialization(mocker):
 
     assert output.content_type() == output_fixture["output"]["contentType"]
 
-    OutputAction.from_dict.assert_any_call(data={
-        "name": "write",
-        "output_action": output_fixture["output"]["actions"]["write"]
-    })
+    OutputAction.from_dict.assert_any_call(
+        data={
+            "name": "write",
+            "output_action": output_fixture["output"]["actions"]["write"],
+        }
+    )
 
     OutputUtils.parse_type.assert_called_once_with(output_fixture["output"])
 
@@ -35,7 +37,7 @@ def test_deserialization(mocker):
 
 
 def test_serialization(mocker):
-    mocker.patch.object(json, 'dumps', return_value=output_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=output_fixture_json)
 
     service_event = ServiceOutput.from_dict(data=output_fixture)
 
