@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
 import os
-import sys
 from threading import Lock
 from typing import Union
 from unittest.mock import MagicMock
