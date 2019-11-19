@@ -17,12 +17,12 @@ class OutputList(OutputBase):
     def from_dict(cls, data):
         kwargs = OutputBase.parse_dict(data)
 
-        if 'list' in data and 'elements' in data['list']:
-            kwargs['elements'] = OutputUtils.parse_type(
-                data['list']['elements']
+        if "list" in data and "elements" in data["list"]:
+            kwargs["elements"] = OutputUtils.parse_type(
+                data["list"]["elements"]
             )
         else:
-            kwargs['elements'] = OutputAny.create()
+            kwargs["elements"] = OutputAny.create()
 
         return cls(**kwargs)
 

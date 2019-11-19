@@ -20,9 +20,9 @@ class OutputBase(ServiceObject):
     @classmethod
     def parse_dict(cls, data):
         return {
-            'help_': data.get('help', None),
-            'name': data.get('name', None),
-            'data': data,
+            "help_": data.get("help", None),
+            "name": data.get("name", None),
+            "data": data,
         }
 
     def name(self):
@@ -30,5 +30,5 @@ class OutputBase(ServiceObject):
 
     def help(self):
         if self._help is None:
-            return 'No help available'
+            return "No help available"
         return self._help

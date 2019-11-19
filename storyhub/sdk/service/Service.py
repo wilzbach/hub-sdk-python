@@ -7,8 +7,9 @@ class Service(ServiceObject):
     This represents the "service" data stored within the hub.
     """
 
-    def __init__(self, name, alias, owner, certified, public,
-                 topics, description, data):
+    def __init__(
+        self, name, alias, owner, certified, public, topics, description, data
+    ):
         super().__init__(data)
 
         self._name = name
@@ -24,16 +25,14 @@ class Service(ServiceObject):
         service = data["service"]
 
         return cls(
-            name=service['name'],
-            alias=service['alias'],
-            owner=Owner.from_dict(data={
-                "owner": service['owner']
-            }),
+            name=service["name"],
+            alias=service["alias"],
+            owner=Owner.from_dict(data={"owner": service["owner"]}),
             certified=service["isCertified"],
             public=service["public"],
             topics=service["topics"],
-            description=service['description'],
-            data=data
+            description=service["description"],
+            data=data,
         )
 
     def name(self):

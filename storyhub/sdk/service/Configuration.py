@@ -13,8 +13,17 @@ class Configuration(ServiceObject):
     Represents a service configuration
     """
 
-    def __init__(self, actions, commands, volumes, entrypoint, service_info,
-                 environment_variables, lifecycle, data):
+    def __init__(
+        self,
+        actions,
+        commands,
+        volumes,
+        entrypoint,
+        service_info,
+        environment_variables,
+        lifecycle,
+        data,
+    ):
         super().__init__(data)
 
         self._actions = actions
@@ -30,56 +39,55 @@ class Configuration(ServiceObject):
         configuration = data["configuration"]
 
         entrypoint = None
-        if 'entrypoint' in configuration:
-            entrypoint = Entrypoint.from_dict(data={
-                "entrypoint": configuration['entrypoint']
-            })
+        if "entrypoint" in configuration:
+            entrypoint = Entrypoint.from_dict(
+                data={"entrypoint": configuration["entrypoint"]}
+            )
 
         lifecycle = None
-        if 'lifecycle' in configuration:
-            lifecycle = Lifecycle.from_dict(data={
-                "lifecycle": configuration['lifecycle']
-            })
+        if "lifecycle" in configuration:
+            lifecycle = Lifecycle.from_dict(
+                data={"lifecycle": configuration["lifecycle"]}
+            )
 
         service_info = None
-        if 'info' in configuration:
-            service_info = ServiceInfo.from_dict(data={
-                "service_info": configuration['info']
-            })
+        if "info" in configuration:
+            service_info = ServiceInfo.from_dict(
+                data={"service_info": configuration["info"]}
+            )
 
         volumes = {}
-        if 'volumes' in configuration:
-            for name, volume in configuration['volumes'].items():
-                volumes[name] = Volume.from_dict(data={
-                    "name": name,
-                    "volume": volume
-                })
+        if "volumes" in configuration:
+            for name, volume in configuration["volumes"].items():
+                volumes[name] = Volume.from_dict(
+                    data={"name": name, "volume": volume}
+                )
 
         actions = {}
-        if 'actions' in configuration:
-            for name, action in configuration['actions'].items():
-                actions[name] = Action.from_dict(data={
-                    "name": name,
-                    "action": action
-                })
+        if "actions" in configuration:
+            for name, action in configuration["actions"].items():
+                actions[name] = Action.from_dict(
+                    data={"name": name, "action": action}
+                )
 
         commands = {}
-        if 'commands' in configuration:
-            for name, command in configuration['commands'].items():
-                commands[name] = Command.from_dict(data={
-                    "name": name,
-                    "command": command
-                })
+        if "commands" in configuration:
+            for name, command in configuration["commands"].items():
+                commands[name] = Command.from_dict(
+                    data={"name": name, "command": command}
+                )
 
         environment_variables = {}
-        if 'environment' in configuration:
-            for name, environment_variable in configuration['environment']\
-                    .items():
+        if "environment" in configuration:
+            for name, environment_variable in configuration[
+                "environment"
+            ].items():
                 environment_variables[name] = EnvironmentVariable.from_dict(
                     data={
                         "name": name,
-                        "environment_variable": environment_variable
-                    })
+                        "environment_variable": environment_variable,
+                    }
+                )
 
         return cls(
             actions=actions,
@@ -89,7 +97,7 @@ class Configuration(ServiceObject):
             service_info=service_info,
             environment_variables=environment_variables,
             lifecycle=lifecycle,
-            data=data
+            data=data,
         )
 
     def actions(self):

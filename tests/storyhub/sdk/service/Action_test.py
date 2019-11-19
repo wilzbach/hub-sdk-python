@@ -15,39 +15,43 @@ action_fixture_json = json.dumps(action_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=action_fixture)
+    mocker.patch.object(json, "loads", return_value=action_fixture)
 
-    mocker.patch.object(Argument, 'from_dict')
-    mocker.patch.object(Event, 'from_dict')
-    mocker.patch.object(HttpOptions, 'from_dict')
-    mocker.patch.object(ServiceOutput, 'from_dict')
+    mocker.patch.object(Argument, "from_dict")
+    mocker.patch.object(Event, "from_dict")
+    mocker.patch.object(HttpOptions, "from_dict")
+    mocker.patch.object(ServiceOutput, "from_dict")
 
     assert Action.from_json(jsonstr=action_fixture_json) is not None
 
     json.loads.assert_called_with(action_fixture_json)
 
-    Argument.from_dict.assert_any_call(data={
-        "name": "flush",
-        "argument": action_fixture["action"]["arguments"]["flush"]
-    })
+    Argument.from_dict.assert_any_call(
+        data={
+            "name": "flush",
+            "argument": action_fixture["action"]["arguments"]["flush"],
+        }
+    )
 
-    HttpOptions.from_dict.assert_any_call(data={
-        "http_options": action_fixture["action"]["http"]
-    })
+    HttpOptions.from_dict.assert_any_call(
+        data={"http_options": action_fixture["action"]["http"]}
+    )
 
-    Event.from_dict.assert_called_with(data={
-        "name": "listen",
-        "event": action_fixture["action"]["events"]["listen"]
-    })
+    Event.from_dict.assert_called_with(
+        data={
+            "name": "listen",
+            "event": action_fixture["action"]["events"]["listen"],
+        }
+    )
 
-    ServiceOutput.from_dict.assert_any_call(data={
-        "output": action_fixture["action"]["output"]
-    })
+    ServiceOutput.from_dict.assert_any_call(
+        data={"output": action_fixture["action"]["output"]}
+    )
 
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=action_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=action_fixture_json)
 
     service_action = Action.from_dict(data=action_fixture)
 
@@ -66,9 +70,9 @@ def test_getters(mocker):
     assert isinstance(action_output.type(), OutputObject)
 
     action_args = action.args()
-    assert len(action_args) == len(action_fixture['action']['arguments'])
+    assert len(action_args) == len(action_fixture["action"]["arguments"])
     for arg in action_args:
-        assert arg.name() in action_fixture['action']['arguments']
+        assert arg.name() in action_fixture["action"]["arguments"]
 
     action_help = action.help()
-    assert action_help == 'No help available.'
+    assert action_help == "No help available."

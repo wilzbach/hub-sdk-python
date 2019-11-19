@@ -10,7 +10,7 @@ service_fixture_json = json.dumps(service_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=service_fixture)
+    mocker.patch.object(json, "loads", return_value=service_fixture)
 
     assert Service.from_json(jsonstr=service_fixture_json) is not None
 
@@ -19,7 +19,7 @@ def test_deserialization(mocker):
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=service_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=service_fixture_json)
 
     service_command = Service.from_dict(data=service_fixture)
 

@@ -8,8 +8,9 @@ class EnvironmentVariable(ServiceObject):
     stored within the configuration object of a service.
     """
 
-    def __init__(self, name, help_, type_, pattern, required, default,
-                 sensitive, data):
+    def __init__(
+        self, name, help_, type_, pattern, required, default, sensitive, data
+    ):
         super().__init__(data)
 
         self._name = name
@@ -27,23 +28,13 @@ class EnvironmentVariable(ServiceObject):
 
         return cls(
             name=name,
-            help_=environment_variable.get(
-                'help', 'No help available.'
-            ),
+            help_=environment_variable.get("help", "No help available."),
             type_=environment_variable.get("type", "string"),
-            pattern=environment_variable.get(
-                'pattern', None
-            ),
-            required=environment_variable.get(
-                'required', False
-            ),
-            default=environment_variable.get(
-                'default', False
-            ),
-            sensitive=environment_variable.get(
-                'sensitive', False
-            ),
-            data=data
+            pattern=environment_variable.get("pattern", None),
+            required=environment_variable.get("required", False),
+            default=environment_variable.get("default", False),
+            sensitive=environment_variable.get("sensitive", False),
+            data=data,
         )
 
     def name(self):

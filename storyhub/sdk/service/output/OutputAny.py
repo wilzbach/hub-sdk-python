@@ -9,6 +9,6 @@ class OutputAny(OutputBase):
     @classmethod
     def create(cls):
         kwargs = {
-            'data': {},
+            "data": {},
         }
         return cls(**kwargs)

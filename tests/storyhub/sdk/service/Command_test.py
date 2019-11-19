@@ -11,23 +11,25 @@ command_fixture_json = json.dumps(command_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=command_fixture)
+    mocker.patch.object(json, "loads", return_value=command_fixture)
 
-    mocker.patch.object(Argument, 'from_dict')
+    mocker.patch.object(Argument, "from_dict")
 
     assert Command.from_json(jsonstr=command_fixture_json) is not None
 
     json.loads.assert_called_with(command_fixture_json)
 
-    Argument.from_dict.assert_called_with(data={
-        "name": "path",
-        "argument": command_fixture["command"]["arguments"]["path"]
-    })
+    Argument.from_dict.assert_called_with(
+        data={
+            "name": "path",
+            "argument": command_fixture["command"]["arguments"]["path"],
+        }
+    )
 
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=command_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=command_fixture_json)
 
     service_command = Command.from_dict(data=command_fixture)
 

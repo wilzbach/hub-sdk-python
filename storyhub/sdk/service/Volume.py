@@ -17,11 +17,7 @@ class Volume(ServiceObject):
         name = data["name"]
         volume = data["volume"]
 
-        return cls(
-            name=name,
-            target=volume["target"],
-            data=data
-        )
+        return cls(name=name, target=volume["target"], data=data)
 
     def name(self):
         return self._name

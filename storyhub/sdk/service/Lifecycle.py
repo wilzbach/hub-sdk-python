@@ -1,10 +1,11 @@
-from storyhub.sdk.service.LifecycleOption import LifecycleOption, \
-    LifecycleOptionType
+from storyhub.sdk.service.LifecycleOption import (
+    LifecycleOption,
+    LifecycleOptionType,
+)
 from storyhub.sdk.service.ServiceObject import ServiceObject
 
 
 class Lifecycle(ServiceObject):
-
     def __init__(self, startup, shutdown, data):
         super().__init__(data)
 
@@ -17,25 +18,25 @@ class Lifecycle(ServiceObject):
 
         startup = None
 
-        if 'startup' in lifecycle:
-            startup = LifecycleOption.from_dict(data={
-                "type": LifecycleOptionType.STARTUP,
-                "lifecycle_option": lifecycle['startup']
-            })
+        if "startup" in lifecycle:
+            startup = LifecycleOption.from_dict(
+                data={
+                    "type": LifecycleOptionType.STARTUP,
+                    "lifecycle_option": lifecycle["startup"],
+                }
+            )
 
         shutdown = None
 
-        if 'shutdown' in lifecycle:
-            shutdown = LifecycleOption.from_dict(data={
-                "type": LifecycleOptionType.SHUTDOWN,
-                "lifecycle_option": lifecycle['shutdown']
-            })
+        if "shutdown" in lifecycle:
+            shutdown = LifecycleOption.from_dict(
+                data={
+                    "type": LifecycleOptionType.SHUTDOWN,
+                    "lifecycle_option": lifecycle["shutdown"],
+                }
+            )
 
-        return cls(
-            startup=startup,
-            shutdown=shutdown,
-            data=data
-        )
+        return cls(startup=startup, shutdown=shutdown, data=data)
 
     def startup(self):
         return self._startup

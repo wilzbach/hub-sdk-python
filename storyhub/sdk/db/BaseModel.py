@@ -26,7 +26,7 @@ class BaseModel(Model):
         global _initialised
 
         if not _initialised:
-            _db.init(os.path.join(db_path, 'hub_cache.sqlite'))
+            _db.init(os.path.join(db_path, "hub_cache.sqlite"))
             _initialised = True
             return True
 

@@ -38,15 +38,16 @@ class GraphQL:
             attempts += 1
 
             try:
-                res = requests.post('https://api.storyscript.io/graphql',
-                                    data=json.dumps({'query': query}),
-                                    headers={
-                                        'Content-Type': 'application/json'
-                                    },
-                                    timeout=10)
+                res = requests.post(
+                    "https://api.storyscript.io/graphql",
+                    data=json.dumps({"query": query}),
+                    headers={"Content-Type": "application/json"},
+                    timeout=10,
+                )
                 if res.status_code != 200:
-                    raise Exception(f'Status code is not 200, '
-                                    f'but {res.status_code}!')
+                    raise Exception(
+                        f"Status code is not 200, " f"but {res.status_code}!"
+                    )
                 break
             except BaseException as e:
                 sleep(0.5)
@@ -54,4 +55,4 @@ class GraphQL:
                     raise e
 
         data = res.json()
-        return data['data']['allServiceTags']['nodes']
+        return data["data"]["allServiceTags"]["nodes"]

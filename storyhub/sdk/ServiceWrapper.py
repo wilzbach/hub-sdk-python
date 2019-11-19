@@ -46,7 +46,7 @@ class ServiceWrapper:
 
     @classmethod
     def from_json_file(cls, path):
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             jsonstr = f.read()
             return cls.from_json(jsonstr=jsonstr)
 
@@ -59,8 +59,11 @@ class ServiceWrapper:
         raw_services = GraphQL.get_all()
         services = {}
         for service in raw_services:
-            slug = (service["service"]["owner"]["username"] +
-                    '/' + service["service"]["name"])
+            slug = (
+                service["service"]["owner"]["username"]
+                + "/"
+                + service["service"]["name"]
+            )
             services[slug] = service
             if service["service"]["alias"] is not None:
                 # alias is unique is enforced in DB constraints
@@ -80,9 +83,11 @@ class ServiceWrapper:
         """
         services_map = self.fetch_services()
 
-        return [services_map[service]
-                for service in services
-                if service in services_map]
+        return [
+            services_map[service]
+            for service in services
+            if service in services_map
+        ]
 
     def update_service(self, service, services_dict):
         """
@@ -93,8 +98,11 @@ class ServiceWrapper:
             services_dict (Dict[str, Dict[str, Any]]): map of service names
                 to service data.
         """
-        slug = (service["service"]["owner"]["username"] +
-                '/' + service["service"]["name"])
+        slug = (
+            service["service"]["owner"]["username"]
+            + "/"
+            + service["service"]["name"]
+        )
         services_dict[slug] = service
         if service["service"]["alias"] is not None:
             # alias is unique is enforced in DB constraints
@@ -125,7 +133,7 @@ class ServiceWrapper:
 
     def as_json_file(self, out_file):
         if out_file is not None:
-            with open(out_file, 'w') as f:
+            with open(out_file, "w") as f:
                 f.write(self.as_json())
 
     def get_all_service_names(self, include_aliases=True):
@@ -148,12 +156,10 @@ class ServiceWrapper:
             if alias in self.services:
                 service = self.services[alias]
         elif owner is not None and name is not None:
-            if f'{owner}/{name}' in self.services:
-                service = self.services[f'{owner}/{name}']
+            if f"{owner}/{name}" in self.services:
+                service = self.services[f"{owner}/{name}"]
 
         if service is None:
             return None
         else:
-            return ServiceData.from_dict(data={
-                "service_data": service
-            })
+            return ServiceData.from_dict(data={"service_data": service})

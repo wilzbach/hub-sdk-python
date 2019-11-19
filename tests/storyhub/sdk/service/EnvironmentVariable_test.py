@@ -11,7 +11,7 @@ env_fixture_json = json.dumps(env_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=env_fixture)
+    mocker.patch.object(json, "loads", return_value=env_fixture)
 
     assert EnvironmentVariable.from_json(jsonstr=env_fixture_json) is not None
 
@@ -20,7 +20,7 @@ def test_deserialization(mocker):
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=env_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=env_fixture_json)
 
     service_command = EnvironmentVariable.from_dict(data=env_fixture)
 
@@ -34,12 +34,12 @@ def test_serialization(mocker):
 def test_getters(mocker):
     env_variable = EnvironmentVariable.from_json(jsonstr=env_fixture_json)
 
-    assert env_variable.help() == env_fixture['environment_variable']['help']
+    assert env_variable.help() == env_fixture["environment_variable"]["help"]
 
 
 def test_getters_no_type(mocker):
     env_json = copy.deepcopy(env_fixture)
-    del env_json['environment_variable']['type']
+    del env_json["environment_variable"]["type"]
     jsonstr = json.dumps(env_json)
     env_variable = EnvironmentVariable.from_json(jsonstr=jsonstr)
-    assert env_variable.type() == 'string'
+    assert env_variable.type() == "string"

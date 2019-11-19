@@ -22,12 +22,10 @@ class Argument(ServiceObject):
 
         return cls(
             name=name,
-            help_=argument.get(
-                'help', 'No help available.'
-            ),
+            help_=argument.get("help", "No help available."),
             type_=OutputUtils.parse_type(argument),
-            required=argument.get('required', False),
-            data=data
+            required=argument.get("required", False),
+            data=data,
         )
 
     def name(self):

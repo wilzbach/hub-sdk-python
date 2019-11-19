@@ -24,31 +24,24 @@ class Event(ServiceObject):
         event = data["event"]
 
         args = {}
-        if 'arguments' in event:
-            for arg_name, arg in event['arguments'].items():
-                args[arg_name] = Argument.from_dict(data={
-                    "name": arg_name,
-                    "argument": arg
-                })
+        if "arguments" in event:
+            for arg_name, arg in event["arguments"].items():
+                args[arg_name] = Argument.from_dict(
+                    data={"name": arg_name, "argument": arg}
+                )
 
         output = None
-        if 'output' in event:
-            output = ServiceOutput.from_dict(data={
-                "output": event["output"]
-            })
+        if "output" in event:
+            output = ServiceOutput.from_dict(data={"output": event["output"]})
 
-        http_options = event.get(
-            'http', None
-        )
+        http_options = event.get("http", None)
 
         if http_options is not None:
-            http_options = HttpOptions.from_dict(data={
-                "http_options": http_options
-            })
+            http_options = HttpOptions.from_dict(
+                data={"http_options": http_options}
+            )
 
-        help_ = event.get(
-            'help', 'No help available.'
-        )
+        help_ = event.get("help", "No help available.")
 
         return cls(
             name=name,
@@ -56,7 +49,7 @@ class Event(ServiceObject):
             args=args,
             output=output,
             http_options=http_options,
-            data=data
+            data=data,
         )
 
     def name(self):

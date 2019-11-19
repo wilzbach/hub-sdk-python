@@ -10,7 +10,7 @@ license_fixture_json = json.dumps(license_fixture)
 
 def test_deserialization(mocker):
 
-    mocker.patch.object(json, 'loads', return_value=license_fixture)
+    mocker.patch.object(json, "loads", return_value=license_fixture)
 
     assert License.from_json(jsonstr=license_fixture_json) is not None
 
@@ -19,7 +19,7 @@ def test_deserialization(mocker):
 
 def test_serialization(mocker):
 
-    mocker.patch.object(json, 'dumps', return_value=license_fixture_json)
+    mocker.patch.object(json, "dumps", return_value=license_fixture_json)
 
     service_command = License.from_dict(data=license_fixture)
 
