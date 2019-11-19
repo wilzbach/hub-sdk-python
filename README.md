@@ -2,9 +2,21 @@
 [![CircleCI](https://img.shields.io/circleci/project/github/storyscript/hub-sdk-python/master.svg?style=for-the-badge)](https://circleci.com/gh/storyscript/hub-sdk-python)
 [![Codecov](https://img.shields.io/codecov/c/github/storyscript/hub-sdk-python.svg?style=for-the-badge)](https://codecov.io/github/storyscript/hub-sdk-python)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg?style=for-the-badge)](https://github.com/storyscript/.github/blob/master/CODE_OF_CONDUCT.md)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg?style=for-the-badge)](https://github.com/psf/black)
 
 # hub-sdk-python
 A Python SDK to access the Storyscript Hub, which supports caching and more
+
+## Developer
+
+Furthermore, install [pre-commit](https://pre-commit.com/#install) and set up a git hook:
+
+```bash
+pip install --user pre-commit
+pre-commit install
+```
+
+This will ensure that every commit is formatted according to [`black`](https://github.com/psf/black).
 
 
 ## Legacy Usage
