@@ -108,8 +108,8 @@ builtins = [
     {
         "name": "slice",
         "input_type": "List[A]",
-        "return_type": "returns a new list, with items starting from the index `start` (inclusive)",
-        "desc": "",
+        "return_type": "List[A]",
+        "desc": "returns a new list, with items starting from the index `start` (inclusive)",
         "args": {
             "start": {"type": "int", "desc": "Starting index (inclusive)"}
         },
