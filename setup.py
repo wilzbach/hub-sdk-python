@@ -77,7 +77,7 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         "requests~=2.21",
-        "peewee~=3.9",
+        "peewee==3.12.0",
         "cachetools~=3.1",
         "appdirs~=1.4",
     ],
