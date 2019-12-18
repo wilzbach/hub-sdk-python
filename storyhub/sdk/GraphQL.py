@@ -1,8 +1,13 @@
 # -*- coding: utf-8 -*-
 import json
+from os import environ
 from time import sleep
 
 import requests
+
+api_url = environ.get(
+    "STORYSCRIPT_HUB_API", "https://api.storyscript.io/graphql"
+)
 
 
 class GraphQL:
@@ -39,7 +44,7 @@ class GraphQL:
 
             try:
                 res = requests.post(
-                    "https://api.storyscript.io/graphql",
+                    api_url,
                     data=json.dumps({"query": query}),
                     headers={"Content-Type": "application/json"},
                     timeout=10,
