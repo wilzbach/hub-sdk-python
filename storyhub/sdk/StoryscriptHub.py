@@ -18,8 +18,12 @@ from storyhub.sdk.db.Database import Database
 from storyhub.sdk.db.Service import Service
 from storyhub.sdk.service.ServiceData import ServiceData
 
+# expose the ServiceWrapper as StoryscriptHub during the migration to the new
+# runtime
+StoryscriptHub = ServiceWrapper
 
-class StoryscriptHub:
+
+class ArchivedStoryscriptHub:
     update_thread = None
 
     retry_lock = Lock()

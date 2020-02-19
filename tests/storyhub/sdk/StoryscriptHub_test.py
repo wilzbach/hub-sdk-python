@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import tempfile
-from time import sleep
 
-from storyhub.sdk.StoryscriptHub import StoryscriptHub
+# from time import sleep
+
+from storyhub.sdk.StoryscriptHub import (
+    ArchivedStoryscriptHub as StoryscriptHub,
+)
 from storyhub.sdk.GraphQL import GraphQL
 from storyhub.sdk.db.Service import Service
 from storyhub.sdk.service.ServiceData import ServiceData
@@ -69,6 +72,8 @@ class VerifiableService:
         assert service.readme() == self.readme
 
 
+"""
+Caching and auto-updating is disabled during the migration to the new runtime
 def test_caching(mocker):
     config = {"actions": {"foo": "bar"}}
 
@@ -125,6 +130,7 @@ def test_caching(mocker):
     actual_service = hub.get(alias="second_service")
 
     assert actual_service is not None
+"""
 
 
 def test_get_with_name(mocker):

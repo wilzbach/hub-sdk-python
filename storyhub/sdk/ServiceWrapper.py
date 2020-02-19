@@ -1,3 +1,4 @@
+from importlib import resources
 import json
 from uuid import UUID
 
@@ -24,6 +25,14 @@ class ServiceWrapper:
 
     def __init__(self, services=None):
         self.services = {}
+        # manually load service fixture during the transition to the new
+        # runtime
+        if services is None:
+            # importlib requires the resource to be in the same directory
+            service_blob = resources.read_text(
+                "storyhub.sdk", "hub.fixed.json"
+            )
+            services = json.loads(service_blob)
         self.reload_services(services)
 
     @classmethod
