@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import threading
+# import threading
 import traceback
 from time import sleep
 
@@ -12,9 +12,10 @@ class AutoUpdateThread:
         self.update_interval = update_interval
         self.initial_update = initial_update
 
-        t = threading.Thread(target=self.dispatch_update)
-        t.setDaemon(True)
-        t.start()
+        # auto-updating is disabled during the migration to the new runtime
+        # t = threading.Thread(target=self.dispatch_update)
+        # t.setDaemon(True)
+        # t.start()
 
     def dispatch_update(self):
         if self.initial_update:
